@@ -35,8 +35,8 @@ Remote debugger is in a background tab which may cause apps to perform slowly
 Fix this by foregrounding the tab (or opening it in a separate window)"
 */
 // this suppresses the above warning that renders in the simulated device
-// console.ignoredYellowBox = ['Remote debugger'];
+console.ignoredYellowBox = ['Remote debugger'];
 
 // ReactNative.AppRegistry
-AppRegistry.registerComponent('rag-tag-react-native', () => AuthApp);
+AppRegistry.registerComponent('ragtag', () => AuthApp);
 
