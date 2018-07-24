@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import { Text, View } from 'react-native'
 
 import { Header, ButtonCustom, SpinnerCustom } from './components/common'
-import LoginForm from './components/LoginForm'
+import LoginForm from './components/auth/LoginForm'
 
 import firebase from 'firebase'
 
 import {FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_MESSAGING_SENDER_ID} from 'react-native-dotenv'
 
-class App extends Component {
+class AppAuth extends Component {
     state = { loggedIn: null }
 
     async componentWillMount () {
@@ -73,4 +73,4 @@ class App extends Component {
     // }
 }
 
-export default App
+export default AppAuth

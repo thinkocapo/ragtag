@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
-import { ButtonCustom, Card, CardSection, InputCustom, SpinnerCustom } from './common'
+import { ButtonCustom, Card, CardSection, InputCustom, SpinnerCustom } from '../common'
 import firebase from 'firebase'
 
 // "TextInputs by default do not have a set height and width"
