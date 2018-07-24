@@ -39,5 +39,5 @@ Fix this by foregrounding the tab (or opening it in a separate window)"
 console.ignoredYellowBox = ['Remote debugger'];
 
 // ReactNative.AppRegistry
-AppRegistry.registerComponent('ragtag', () => AppTechStack);
+AppRegistry.registerComponent('ragtag', () => AppAuth);
 

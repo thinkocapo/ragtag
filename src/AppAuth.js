@@ -43,11 +43,10 @@ class AppAuth extends Component {
             case false:
                 return <LoginForm />
             case null:
-                // how to center this?
-                // style={{ flexDirection: 'column', justifyContent: 'flex-end'}} NOT WORKING
-                // style={{ flexDirection: 'column', justifyContent: 'space-around'}} NOT WORKING
+                // * REVIEW * How to center the spinner
+                // makes its parent View maximized to its own parents (overlays the <Header> but not an issue)
                 return (
-                    <View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'  }}>
                         <SpinnerCustom size="large" />
                     </View>
                 )
