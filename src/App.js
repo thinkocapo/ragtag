@@ -45,7 +45,7 @@ class App extends Component {
             case null:
                 // how to center this?
                 // style={{ flexDirection: 'column', justifyContent: 'flex-end'}} NOT WORKING
-                // style={{flexDirection: 'column', justifyContent: 'space-around'}} NOT WORKING
+                // style={{ flexDirection: 'column', justifyContent: 'space-around'}} NOT WORKING
                 return (
                     <View>
                         <SpinnerCustom size="large" />
