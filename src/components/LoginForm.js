@@ -16,13 +16,21 @@ class LoginForm extends Component {
     // Processing Authentication Credentials
     onButtonPress() {
         console.log('press')
+
+        this.setState({ error: '' })
+
         const { email, password, error } = this.state
         firebase.auth().signInWithEmailAndPassword(email, password)
             .catch((err) => {
+                console.log('ERROR...signInWithEmailAndPassword', err)
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .catch(() => {
-                        this.setState({ error: 'Authentication Failed.' })
+                    .catch((err) => {
+                        console.log('ERROR...createUserWithEmailAndPassword', err)
+                        this.setState({ error: 'Authentication Failed' })
                     })
+            })
+            .finally((result) => {
+                console.log('finally...result', result)
             })
     }
 
