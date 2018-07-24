@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
-import { Button, Card, CardSection, Input } from './common'
+import { Button, Card, CardSection, Input, Spinner } from './common'
 import firebase from 'firebase'
 
 // "TextInputs by default do not have a set height and width"
@@ -11,27 +11,44 @@ import firebase from 'firebase'
 // useful if you're pulling this component out and putting it to somewhere else...
 
 class LoginForm extends Component {
-    state = { email: '', password: '', error: '' }
+    state = { email: '', password: '', error: '', loading: false }
 
     // Processing Authentication Credentials
     onButtonPress() {
         console.log('press')
 
-        this.setState({ error: '' })
+        this.setState({ error: '', loading: true })
 
         const { email, password, error } = this.state
         firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLoginSuccess.bind(this))
             .catch((err) => {
                 console.log('ERROR...signInWithEmailAndPassword', err)
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .catch((err) => {
-                        console.log('ERROR...createUserWithEmailAndPassword', err)
-                        this.setState({ error: 'Authentication Failed' })
-                    })
+                    .then(this.onLoginSuccess.bind(this))
+                    .catch(this.onLoginFail.bind(this))
             })
             .finally((result) => {
-                console.log('finally...result', result)
+                console.log('finally...result', result) // undefined
             })
+    }
+
+    onLoginFail() {
+        this.setState({ error: 'Authentication Failed', loading: false })
+    }
+    onLoginSuccess() {
+        this.setState({ email: '', password: '', error: '', loading: false })
+    }
+
+    renderButtonOrSpinner() {
+        if (this.state.loading) {
+            return <Spinner size="small" />
+        }
+        return (
+            <Button onMyPress={this.onButtonPress.bind(this)}>
+                Login
+            </Button>
+        )
     }
 
     render () {
@@ -61,9 +78,7 @@ class LoginForm extends Component {
                 </Text>
 
                 <CardSection>
-                    <Button onMyPress={this.onButtonPress.bind(this)}>
-                        Login
-                    </Button>
+                    {this.renderButtonOrSpinner()}
                 </CardSection>
 
             </Card>

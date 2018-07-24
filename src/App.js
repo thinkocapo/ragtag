@@ -19,7 +19,15 @@ class App extends Component {
             storageBucket: FIREBASE_STORAGE_BUCKET,
             messagingSenderId: FIREBASE_MESSAGING_SENDER_ID
           })
-          console.log(firebaseInitialized)
+        console.log(firebaseInitialized)
+
+        // Executes when User Signs In or Signs Out
+        firebase.auth().onAuthStateChanged((user) => { // null if its signOut event
+            console.log('onAuthStateChanged...user')
+            if (user) {
+
+            }
+        })
     }
 
     render() {
