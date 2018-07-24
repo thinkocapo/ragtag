@@ -15,6 +15,7 @@ class LoginForm extends Component {
 
     // Processing Authentication Credentials
     onButtonPress() {
+        console.log('press')
         const { email, password, error } = this.state
         firebase.auth().signInWithEmailAndPassword(email, password)
             .catch((err) => {
@@ -52,8 +53,8 @@ class LoginForm extends Component {
                 </Text>
 
                 <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>
-                        LogIN
+                    <Button onMyPress={this.onButtonPress.bind(this)}>
+                        Login
                     </Button>
                 </CardSection>
 
