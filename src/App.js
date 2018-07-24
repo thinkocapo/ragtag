@@ -55,8 +55,9 @@ class App extends Component {
     }
 
     render() {
+        // * MAKE IT MAXIMIZE, SO NOW renderLoggedInOrLoggedOut maybe be able to expand * try those styles now ^^
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <Header headerText="Authentication1"/>
                 {this.renderLoggedInOrLoggedOut()}
             </View>
