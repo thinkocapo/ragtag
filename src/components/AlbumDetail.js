@@ -2,7 +2,7 @@ import React from 'react'
 import {Image, Text, View, Linking} from 'react-native'
 import Card from './common/Card'
 import CardSection from './common/CardSection'
-import Button from './common/Button'
+import ButtonCustom from './common/Button'
 
 // * <Text> gets passed into Cards and rendered in their via its {props.children}
 
@@ -33,9 +33,9 @@ const AlbumDetail = ({ album: { artist, image, title, thumbnail_image, url } }) 
                         style={imageStyle}/>
             </CardSection>
             <CardSection>
-                <Button onMyPress={() => {Linking.openURL(url)}}>
+                <ButtonCustom onMyPress={() => {Linking.openURL(url)}}>
                     Buy Now
-                </Button>
+                </ButtonCustom>
             </CardSection>
         </Card>
     )

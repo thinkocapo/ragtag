@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, TextInput, View } from 'react-native'
 
-const Input = ({ label, placeholder, value, onChangeText, secureTextEntry }) => {
+const InputCustom = ({ label, placeholder, value, onChangeText, secureTextEntry }) => {
     const { inputStyle, labelStyle, containerStyle } = styles
 
     return (
@@ -41,4 +41,4 @@ const styles = {
     }
 }
 
-export { Input }
+export { InputCustom }

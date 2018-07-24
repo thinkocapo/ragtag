@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
-import { Button, Card, CardSection, Input } from './common'
+import { ButtonCustom, Card, CardSection, InputCustom, SpinnerCustom } from './common'
 import firebase from 'firebase'
 
 // "TextInputs by default do not have a set height and width"
@@ -11,25 +11,51 @@ import firebase from 'firebase'
 // useful if you're pulling this component out and putting it to somewhere else...
 
 class LoginForm extends Component {
-    state = { email: '', password: '', error: '' }
+    state = { email: '', password: '', error: '', loading: false }
 
     // Processing Authentication Credentials
     onButtonPress() {
+        console.log('press')
+
+        this.setState({ error: '', loading: true })
+
         const { email, password, error } = this.state
         firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(this.onLoginSuccess.bind(this))
             .catch((err) => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .catch(() => {
-                        this.setState({ error: 'Authentication Failed.' })
-                    })
+                    .then(this.onLoginSuccess.bind(this))
+                    .catch(this.onLoginFail.bind(this))
             })
+            .finally((result) => {
+                console.log('finally...result', result) // undefined
+            })
+    }
+
+    onLoginFail(event) {
+        this.setState({ error: 'Authentication Failed', loading: false })
+        console.log('fail...', event)
+    }
+    onLoginSuccess() {
+        this.setState({ email: '', password: '', error: '', loading: false })
+    }
+
+    renderButtonOrSpinner() {
+        if (this.state.loading) {
+            return <SpinnerCustom size="small" />
+        }
+        return (
+            <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
+                Login
+            </ButtonCustom>
+        )
     }
 
     render () {
         return (
             <Card>
                 <CardSection>
-                    <Input 
+                    <InputCustom 
                         label={"Email"}
                         placeholder={"user@gmail.com"}
                         value={this.state.email}
@@ -38,7 +64,7 @@ class LoginForm extends Component {
                 </CardSection>
                 
                 <CardSection>
-                    <Input 
+                    <InputCustom 
                         secureTextEntry
                         label={"Password"}
                         placeholder={"xxxxxxxxxx"}
@@ -52,9 +78,7 @@ class LoginForm extends Component {
                 </Text>
 
                 <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>
-                        LogIN
-                    </Button>
+                    {this.renderButtonOrSpinner()}
                 </CardSection>
 
             </Card>
