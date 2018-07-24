@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
-import { Button, Card, CardSection, Input, Spinner } from './common'
+import { ButtonCustom, Card, CardSection, InputCustom, SpinnerCustom } from './common'
 import firebase from 'firebase'
 
 // "TextInputs by default do not have a set height and width"
@@ -23,7 +23,6 @@ class LoginForm extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(this.onLoginSuccess.bind(this))
             .catch((err) => {
-                console.log('ERROR...signInWithEmailAndPassword', err)
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then(this.onLoginSuccess.bind(this))
                     .catch(this.onLoginFail.bind(this))
@@ -33,8 +32,9 @@ class LoginForm extends Component {
             })
     }
 
-    onLoginFail() {
+    onLoginFail(event) {
         this.setState({ error: 'Authentication Failed', loading: false })
+        console.log('fail...', event)
     }
     onLoginSuccess() {
         this.setState({ email: '', password: '', error: '', loading: false })
@@ -42,12 +42,12 @@ class LoginForm extends Component {
 
     renderButtonOrSpinner() {
         if (this.state.loading) {
-            return <Spinner size="small" />
+            return <SpinnerCustom size="small" />
         }
         return (
-            <Button onMyPress={this.onButtonPress.bind(this)}>
+            <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
                 Login
-            </Button>
+            </ButtonCustom>
         )
     }
 
@@ -55,7 +55,7 @@ class LoginForm extends Component {
         return (
             <Card>
                 <CardSection>
-                    <Input 
+                    <InputCustom 
                         label={"Email"}
                         placeholder={"user@gmail.com"}
                         value={this.state.email}
@@ -64,7 +64,7 @@ class LoginForm extends Component {
                 </CardSection>
                 
                 <CardSection>
-                    <Input 
+                    <InputCustom 
                         secureTextEntry
                         label={"Password"}
                         placeholder={"xxxxxxxxxx"}

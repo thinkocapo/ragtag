@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Text, TouchableOpacity} from 'react-native'
 
-const Button = ({ onMyPress, children }) => {
+const ButtonCustom = ({ onMyPress, children }) => {
     const {buttonStyle, textStyle} = styles
     return (
         <TouchableOpacity onPress={onMyPress} style={buttonStyle}>
@@ -34,4 +34,4 @@ const styles = {
     }
 }
 
-export { Button }
+export { ButtonCustom }
