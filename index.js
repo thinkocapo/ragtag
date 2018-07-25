@@ -18,10 +18,11 @@ import { View } from 'react-native'
 
 // import AppRagTag from './AppRagTag' TODO
 
-import AuthApp from './src/App'
+import AppAuth from './src/AppAuth'
+import AppTechStack from './src/AppTechStack'
 
 // import Header from './src/components/common/Header';
-// import AlbumList from './src/components/AlbumList';
+// import AlbumList from './src/components/album/AlbumList';
 // const AnApp = () => (
 //       <View style={{ flex: 1 }}>
 //             <Header headerText={'AlbumsHeader'} />
@@ -38,5 +39,5 @@ Fix this by foregrounding the tab (or opening it in a separate window)"
 console.ignoredYellowBox = ['Remote debugger'];
 
 // ReactNative.AppRegistry
-AppRegistry.registerComponent('ragtag', () => AuthApp);
+AppRegistry.registerComponent('ragtag', () => AppTechStack);
 
