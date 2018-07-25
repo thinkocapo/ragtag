@@ -5,7 +5,7 @@ import ListItem from './ListItem'
 
 class LibraryList extends Component {
     renderItem(library) {
-        return <ListItem library={library} />
+        return <ListItem library={library} testme={'ya'} />
     }
     
     // We want a Component that should take however many it can fit on the screen, so we use FlatList

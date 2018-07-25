@@ -12,10 +12,10 @@ import * as actions from '../../actions'
 class ListItem extends Component {
 
     renderDescription() {
-        const { selectedLibraryId } = this.props
+        const { expanded } = this.props
         const library = this.props.library.item
 
-        if (library.id === selectedLibraryId) {
+        if (expanded) {
             return (
                 <Text>{library.description}</Text>
             )
@@ -52,11 +52,11 @@ const styles = {
 
 // * IMPORTANT *
 // "ownProps are the props passed to the component we're wrapping" i.e. child props. equal to this.props inside of component
+// e.g. library={library} testme={'ya'} will show on ownProps
 const mapStateToProps = (state, ownProps) => { // { selectedLibraryId }
     console.log('ownProps', ownProps)
-    return {
-        selectedLibraryId: state.selectedLibraryId
-    }
+    const expanded = state.selectedLibraryId === ownProps.library.id
+    return { expanded }
 }
 
 export default connect(mapStateToProps, actions)(ListItem)
