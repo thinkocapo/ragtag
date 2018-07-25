@@ -5,7 +5,7 @@ import { createStore } from 'redux'
 import reducers from './reducers'
 
 import { Header } from './components/common'
-import LibraryList from './components/library/LibraryList'
+import LibraryList from './components/techstack/LibraryList'
 
 // Redux
 // (state = [], action)

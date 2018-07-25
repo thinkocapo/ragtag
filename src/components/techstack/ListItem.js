@@ -10,6 +10,18 @@ import * as actions from '../../actions'
 
 // Even if no state, still want Functional Componenet, because using redux
 class ListItem extends Component {
+
+    renderDescription() {
+        const { selectedLibraryId } = this.props
+        const library = this.props.library.item
+
+        if (library.id === selectedLibraryId) {
+            return (
+                <Text>{library.description}</Text>
+            )
+        }
+    }
+
     render() {
         const { titleStyle } = styles
         const { id, title } = this.props.library.item
@@ -24,6 +36,7 @@ class ListItem extends Component {
                             {title}
                         </Text>
                     </CardSection>
+                    {this.renderDescription()}
                 </View>
             </ TouchableWithoutFeedback>
         )
