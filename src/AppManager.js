@@ -5,11 +5,12 @@ import { createStore } from 'redux'
 import reducers from './reducers'
 
 import { Header } from './components/common'
+import LoginForm from './components/manager/LoginForm'
 
 import firebase from 'firebase'
 import {MANAGER_API_KEY, MANAGER_AUTH_DOMAIN, MANAGER_DATABASE_URL, MANAGER_PROJECT_ID, MANAGER_STORAGE_BUCKET, MANAGER_MESSAGING_SENDER_ID} from 'react-native-dotenv'
 
-class AppEmployees extends Component {
+class AppManager extends Component {
 
     async componentWillMount() {
         const firebaseInitialized = await firebase.initializeApp({
@@ -28,14 +29,12 @@ class AppEmployees extends Component {
         return (
             <Provider store={createStore(reducers)}>
                 <View style={ { flex: 1 } }>
-                    <Header headerText="Employees Stack App"/>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>I am centered because i'm flexing to my parent, over the header, which shares same parent</Text>
-                    </View>
+                    <Header headerText="Manager Stack App"/>
+                    <LoginForm/>
                 </View>
             </Provider>
         )
     }
 }
 
-export default AppEmployees
+export default AppManager

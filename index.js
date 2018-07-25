@@ -7,11 +7,11 @@ import { View } from 'react-native'
 import AppAlbums from './src/AppAlbums'
 import AppAuth from './src/AppAuth'
 import AppTechStack from './src/AppTechStack'
-import AppEmployees from './src/AppEmployees'
+import AppManager from './src/AppManager'
 
 console.ignoredYellowBox = ['Remote debugger']; // see note below
 
-AppRegistry.registerComponent('ragtag', () => AppEmployees);
+AppRegistry.registerComponent('ragtag', () => AppManager);
 
 
 /* 
