@@ -3,6 +3,6 @@ import LibraryReducer from './LibraryReducer'
 import SelectionReducer from './SelectionReducer'
 
 export default combineReducers({
-    selectedLibraryId: SelectionReducer,
-    libraries: LibraryReducer
+    libraries: LibraryReducer,
+    selectedLibraryId: SelectionReducer
 })

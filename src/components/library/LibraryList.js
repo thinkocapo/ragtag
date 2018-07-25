@@ -10,7 +10,6 @@ class LibraryList extends Component {
     
     render() {
         // should take however many it can fit on the screen
-        console.log('this.props.libraries....', this.props.libraries)
         return (
             <FlatList
                 data={this.props.libraries}
