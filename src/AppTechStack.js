@@ -27,8 +27,13 @@ class AppTechStack extends Component {
     }
     
 }
+{/* <Provider store={createStore(reducers)}>
+<View style={ { flex: 1 } }>
+    <Header headerText="Tech Stack App"/>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>I am centered because i'm flexing to my parent, over the header, which shares same parent</Text>
+    </View>
+</View>
+</Provider> */}
 
 export default AppTechStack
-/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>I am centered because i'm flexing to my parent, over the header, which shares same parent</Text>
-</View> */
