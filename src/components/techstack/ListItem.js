@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
-import { Text, View, TouchableWithoutFeedback } from 'react-native'
+import { 
+    Text, View, 
+    TouchableWithoutFeedback, 
+    LayoutAnimation
+} from 'react-native'
 import { connect } from 'react-redux'
 import { CardSection } from '../common'
 import * as actions from '../../actions'
@@ -10,6 +14,10 @@ import * as actions from '../../actions'
 
 // Even if no state, still want Functional Componenet, because using redux
 class ListItem extends Component {
+    // not componentWillMount
+    componentWillUpdate() {
+        LayoutAnimation.spring();
+    }
 
     renderDescription() {
         const { library, expanded } = this.props
