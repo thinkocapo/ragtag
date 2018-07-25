@@ -45,6 +45,8 @@ const Header = (props) => {
     alignSelf is for flexbox
         "tells element to position itself using flexbox rules"
 
+
+    If text in a <Text> is runnong off edge of screen, use <Text style={ { flex: 1 } }>
     */
     const { textStyle, viewStyle } = style
     return (
