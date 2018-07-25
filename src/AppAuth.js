@@ -24,7 +24,6 @@ class AppAuth extends Component {
 
         // Executes when User Signs In or Signs Out
         firebase.auth().onAuthStateChanged((user) => { // user is null if its signOut event
-            console.log('onAuthStateChanged...user')
             if (user) {
                 this.setState({ loggedIn: true })
             } else {
@@ -33,7 +32,6 @@ class AppAuth extends Component {
         })
     }
 
-    // renderLoggedInOrLoggedOut
     renderLoggedInOrLoggedOut() {
         switch (this.state.loggedIn) {
             case true:
@@ -57,7 +55,7 @@ class AppAuth extends Component {
         // * MAKE IT MAXIMIZE, SO NOW renderLoggedInOrLoggedOut maybe be able to expand * try those styles now ^^
         return (
             <View style={{ flex: 1 }}>
-                <Header headerText="Authentication1"/>
+                <Header headerText="Authentication"/>
                 {this.renderLoggedInOrLoggedOut()}
             </View>
         )

@@ -1,8 +1,6 @@
 import React from 'react'
 import {Image, Text, View, Linking} from 'react-native'
-import Card from './common/Card'
-import CardSection from '../common/CardSection'
-import ButtonCustom from '../common/Button'
+import { Card, CardSection, ButtonCustom } from '../common'
 
 // * <Text> gets passed into Cards and rendered in their via its {props.children}
 
