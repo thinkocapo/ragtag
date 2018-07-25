@@ -14,9 +14,11 @@ import * as actions from '../../actions'
 
 // Even if no state, still want Functional Componenet, because using redux
 class ListItem extends Component {
+
     // not componentWillMount
+    // called before its rendered..."whenever is about to be rerendered to the device"
     componentWillUpdate() {
-        LayoutAnimation.spring();
+        LayoutAnimation.easeInEaseOut(); // spring, linear
     }
 
     renderDescription() {
