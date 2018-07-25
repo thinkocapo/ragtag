@@ -2,24 +2,13 @@ import { AppRegistry } from 'react-native';
 import React from 'react';
 import { View } from 'react-native'
 
-// ANDROID INSTRUCTIONS
-// Terminal 1
-// /Users/WillsHome/Library/Android/sdk/tools/emulator -avd Nexus_6_Marshmallow
-// opens a Mac Terminal log showing React Package Manager builds (for every save), keeps original terminal blocked
 
-// Terminal 2
-// react-native run-android; react-native log-android
 
-// IOS INSTRUCTIONS
-// Terminal 1
-// react-native run-ios
-
-// 3 DIFFERENT APPS YOU CAN PLUG AND PLAY
-
-// import AppRagTag from './AppRagTag' TODO
-
+// import AppRagTag from './AppRagTag'
+// import AppAlbums from './AppAlbums'
 import AppAuth from './src/AppAuth'
 import AppTechStack from './src/AppTechStack'
+import AppEmployees from './src/AppEmployees'
 
 // import Header from './src/components/common/Header';
 // import AlbumList from './src/components/album/AlbumList';
