@@ -8,11 +8,13 @@ class LibraryList extends Component {
         return <ListItem library={library} />
     }
     
+    // We want a Component that should take however many it can fit on the screen, so we use FlatList
     render() {
-        // should take however many it can fit on the screen
+        // * INTERESTING *
+        //console.log('LibraryList...', this.props) // { id, title, description } on each
         return (
             <FlatList
-                data={this.props.libraries}
+                data={this.props.libraries} // adds { index, item, separators} where 'item' has your library from this.props.libraries
                 renderItem={this.renderItem}
                 keyExtractor={(library) => library.id.toString()}
             />

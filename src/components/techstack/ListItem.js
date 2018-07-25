@@ -50,7 +50,10 @@ const styles = {
     }
 }
 
-const mapStateToProps = state => { // { selectedLibraryId }
+// * IMPORTANT *
+// "ownProps are the props passed to the component we're wrapping" i.e. child props. equal to this.props inside of component
+const mapStateToProps = (state, ownProps) => { // { selectedLibraryId }
+    console.log('ownProps', ownProps)
     return {
         selectedLibraryId: state.selectedLibraryId
     }
