@@ -12,19 +12,20 @@ import * as actions from '../../actions'
 class ListItem extends Component {
 
     renderDescription() {
-        const { expanded } = this.props
-        const library = this.props.library.item
+        const { library, expanded } = this.props
 
         if (expanded) {
             return (
-                <Text>{library.description}</Text>
+                <CardSection>
+                    <Text>{library.description}</Text>
+                </CardSection>
             )
         }
     }
 
     render() {
         const { titleStyle } = styles
-        const { id, title } = this.props.library.item
+        const { id, title } = this.props.library
 
         return (
             <TouchableWithoutFeedback
@@ -45,6 +46,7 @@ class ListItem extends Component {
 
 const styles = {
     titleStyle: {
+        flex: 1, // prevents text from running off the screen left-to-right. but that wasn't happening on mine...
         fontSize: 18,
         paddingLeft: 15
     }
@@ -54,7 +56,6 @@ const styles = {
 // "ownProps are the props passed to the component we're wrapping" i.e. child props. equal to this.props inside of component
 // e.g. library={library} testme={'ya'} will show on ownProps
 const mapStateToProps = (state, ownProps) => { // { selectedLibraryId }
-    console.log('ownProps', ownProps)
     const expanded = state.selectedLibraryId === ownProps.library.id
     return { expanded }
 }
