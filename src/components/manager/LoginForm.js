@@ -1,11 +1,7 @@
 import React, {Component} from 'react'
 import { Text, View } from 'react-native'
-
 import { connect } from 'react-redux'
-import { createStore } from 'redux'
-
 import { Card, CardSection, InputCustom, ButtonCustom, SpinnerCustom } from '../common'
-
 import { emailChanged, passwordChanged, loginUser } from '../../actions'
 
 class LoginForm extends Component { 
@@ -16,7 +12,6 @@ class LoginForm extends Component {
     }
 
     renderButtonOrSpinner() {
-        // return <Text>HELLO THERE </Text>
         if (this.props.loading) {
             return <SpinnerCustom size="large" />
         }
