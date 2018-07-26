@@ -22,6 +22,16 @@ class LoginForm extends Component {
         this.props.passwordChanged(text)
     }
 
+    renderError() {
+        if (this.props.error) {
+            return (
+                <View style={{ backgroundColor: 'white'}}>
+                    <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+                </View>
+            )
+        }
+    }
+
     render () {
         return (
             <Card>
@@ -44,6 +54,8 @@ class LoginForm extends Component {
                     />
                 </CardSection>
 
+                {this.renderError()}
+
                 <CardSection>
                     <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
                         Login
@@ -54,10 +66,18 @@ class LoginForm extends Component {
     }
 }
 
+const styles = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    }
+}
 const mapStateToProps = state => {
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        error: state.auth.error
     }
 }
 export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser } )(LoginForm)
