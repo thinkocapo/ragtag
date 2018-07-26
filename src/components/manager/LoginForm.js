@@ -6,9 +6,14 @@ import { createStore } from 'redux'
 
 import { Card, CardSection, InputCustom, ButtonCustom } from '../common'
 
-import { emailChanged, passwordChanged } from '../../actions'
+import { emailChanged, passwordChanged, loginUser } from '../../actions'
 
 class LoginForm extends Component { 
+
+    onButtonPress() {
+        const { email, password } = this.props
+        this.props.loginUser({ email, password })
+    }
     onEmailChange(text) {
         this.props.emailChanged(text)
     }
@@ -40,7 +45,7 @@ class LoginForm extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <ButtonCustom>
+                    <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
                         Login
                     </ButtonCustom>
                 </CardSection>
@@ -55,4 +60,4 @@ const mapStateToProps = state => {
         password: state.auth.password
     }
 }
-export default connect(mapStateToProps, { emailChanged, passwordChanged } )(LoginForm)
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser } )(LoginForm)

@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import ReduxThunk from 'redux-thunk' // middleware
 import reducers from './reducers'
 
 import { Header } from './components/common'
@@ -24,10 +25,12 @@ class AppManager extends Component {
         console.log('firebase initialized:', firebaseInitialized) //shows config values
 
     }
-
     render() {
+        // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
+        // 3rd arg is a Store Enhancer (additional functionalities to our store)
+        const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
         return (
-            <Provider store={createStore(reducers)}>
+            <Provider store={store}>
                 <View style={ { flex: 1 } }>
                     <Header headerText="Manager Stack App"/>
                     <LoginForm/>
