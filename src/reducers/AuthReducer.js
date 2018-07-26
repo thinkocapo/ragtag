@@ -2,14 +2,16 @@ import {
     EMAIL_CHANGED, 
     PASSWORD_CHANGED, 
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL
+    LOGIN_USER_FAIL,
+    LOGIN_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
     email: '',
     password: '',
     user: null,
-    error: ''
+    error: '',
+    loading: false
 }
 // * IMPORTANT *
 // no, because its same object in memory , redux will think it hasn't changed at all
@@ -25,9 +27,13 @@ export default (state = INITIAL_STATE, action) => {
         case PASSWORD_CHANGED:
             return { ...state, password: action.payload }
         case LOGIN_USER_SUCCESS:
-            return { ...state, user: action.payload}
+            // * INTERESTING *
+            // banana - throw an error here, and it will cause the forebase call to reach .catch, even though the response came back
+            return { ...state, user: action.payload, error: '', loading: false }
         case LOGIN_USER_FAIL:
-            return { ...state, error: 'Authentication Failed'} // could reset pw password: ''
+            return { ...state, error: 'Authentication Failed', loading: false } // could reset pw password: ''
+        case LOGIN_USER:
+            return { ...state, loading: true, error: '' }
         default:
             return state;
     }

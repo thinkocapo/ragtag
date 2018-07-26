@@ -3,7 +3,8 @@ import {
     EMAIL_CHANGED, 
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL
+    LOGIN_USER_FAIL,
+    LOGIN_USER
 } from './types'
 
 // REDUX THUNK - handles async action creators
@@ -33,9 +34,12 @@ export const passwordChanged = (text) => {
 // loginUser action returns a function which invokes immediately, and the 'dispatch' in it we can call at anytime, call it multiple times
 export const loginUser = ({ email, password }) => {
     return (dispatch) => {
+        dispatch({ type: LOGIN_USER })
+
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(user => loginUserSuccess(dispatch, user))
-            .catch(() => {
+            .catch((err) => {
+                console.log(err) // keep this here, because response might come back okay but if reducer throws an error, then this .catch will be reached, which is misleading
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then(user => loginUserSuccess(dispatch, user))
                     .catch(() => loginUserFail(dispatch))
