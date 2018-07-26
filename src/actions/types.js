@@ -1,0 +1,3 @@
+// Manager App
+export const EMAIL_CHANGED = 'EMAIL_CHANGED'
+export const PASSWORD_CHANGED = 'PASSWORD_CHANGED'
