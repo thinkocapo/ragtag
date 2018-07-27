@@ -1,43 +1,24 @@
-import { AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native'; // import ReactNative from 'react-native' --> ReactNative.AppRegistry
 import React from 'react';
 import { View } from 'react-native'
 
-// ANDROID INSTRUCTIONS
-// Terminal 1
-// /Users/WillsHome/Library/Android/sdk/tools/emulator -avd Nexus_6_Marshmallow
-// opens a Mac Terminal log showing React Package Manager builds (for every save), keeps original terminal blocked
 
-// Terminal 2
-// react-native run-android; react-native log-android
-
-// IOS INSTRUCTIONS
-// Terminal 1
-// react-native run-ios
-
-// 3 DIFFERENT APPS YOU CAN PLUG AND PLAY
-
-// import AppRagTag from './AppRagTag' TODO
-
+// import AppRagTag from './AppRagTag'
+import AppAlbums from './src/AppAlbums'
 import AppAuth from './src/AppAuth'
 import AppTechStack from './src/AppTechStack'
+import AppManager from './src/AppManager'
 
-// import Header from './src/components/common/Header';
-// import AlbumList from './src/components/album/AlbumList';
-// const AnApp = () => (
-//       <View style={{ flex: 1 }}>
-//             <Header headerText={'AlbumsHeader'} />
-//             <AlbumList/>
-//       </View>
-// )
+console.ignoredYellowBox = ['Remote debugger']; // see note below
 
-/* WARNING
+AppRegistry.registerComponent('ragtag', () => AppManager);
+
+
+/* 
 "WARNING: YellowBox.js:80 
 Remote debugger is in a background tab which may cause apps to perform slowly
 Fix this by foregrounding the tab (or opening it in a separate window)"
+
+- this suppresses the above warning that renders in the simulated device
+- Since upgrading this suppression isn't working, and need to put Debugger in its own window. not a tab
 */
-// this suppresses the above warning that renders in the simulated device
-console.ignoredYellowBox = ['Remote debugger'];
-
-// ReactNative.AppRegistry
-AppRegistry.registerComponent('ragtag', () => AppTechStack);
-

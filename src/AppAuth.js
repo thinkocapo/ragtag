@@ -5,7 +5,6 @@ import { Header, ButtonCustom, SpinnerCustom } from './components/common'
 import LoginForm from './components/auth/LoginForm'
 
 import firebase from 'firebase'
-
 import {FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID, FIREBASE_STORAGE_BUCKET, FIREBASE_MESSAGING_SENDER_ID} from 'react-native-dotenv'
 
 class AppAuth extends Component {
@@ -20,11 +19,10 @@ class AppAuth extends Component {
             storageBucket: FIREBASE_STORAGE_BUCKET,
             messagingSenderId: FIREBASE_MESSAGING_SENDER_ID
           })
-        console.log(firebaseInitialized)
+        // console.log(firebaseInitialized) shows config values
 
         // Executes when User Signs In or Signs Out
         firebase.auth().onAuthStateChanged((user) => { // user is null if its signOut event
-            console.log('onAuthStateChanged...user')
             if (user) {
                 this.setState({ loggedIn: true })
             } else {
@@ -33,7 +31,6 @@ class AppAuth extends Component {
         })
     }
 
-    // renderLoggedInOrLoggedOut
     renderLoggedInOrLoggedOut() {
         switch (this.state.loggedIn) {
             case true:
@@ -57,7 +54,7 @@ class AppAuth extends Component {
         // * MAKE IT MAXIMIZE, SO NOW renderLoggedInOrLoggedOut maybe be able to expand * try those styles now ^^
         return (
             <View style={{ flex: 1 }}>
-                <Header headerText="Authentication1"/>
+                <Header headerText="Authentication"/>
                 {this.renderLoggedInOrLoggedOut()}
             </View>
         )

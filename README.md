@@ -123,3 +123,18 @@ exp start
 
 ### Connecting to Development Server,adb reverse, connect via wi-fi
 Haven't set these up yet...Sticking with emulator AVD's for now. I'd rather not develop initially on my smart phone because there's too many distractions there and screen turns off a lot.
+
+## Running the Apps
+// ANDROID INSTRUCTIONS
+// Terminal 1
+// /Users/WillsHome/Library/Android/sdk/tools/emulator -avd Nexus_6_Marshmallow
+// opens a Mac Terminal log showing React Package Manager builds (for every save), keeps original terminal blocked
+
+// Terminal 2
+// react-native run-android; react-native log-android
+
+// IOS INSTRUCTIONS
+// Terminal 1
+// react-native run-ios
+
+// * MULTIPLE APPS YOU CAN PLUG AND PLAY *
