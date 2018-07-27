@@ -25,6 +25,9 @@ const styles = {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 10
+
+        // flexDirection: 'column',
+        // justifyContent: 'space-between'
     }
 }
 export { Card }

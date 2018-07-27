@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const CardSection = (props) => (
-    <View style={styles.containerStyle}>
-        {props.children}
-    </View>
-)
+// * STYLE * can accept an ARRAY. style furthest to the right, will override anything on the left
+const CardSection = (props) => {
+    // style={{ flexDirection: 'column'} from EmployeeCreate.js Picker cardsection
+    return (
+        <View style={ [styles.containerStyle, props.style] }>
+            {props.children}
+        </View>
+    )
+}
 
 const styles = {
     containerStyle: {
