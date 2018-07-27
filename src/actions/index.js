@@ -6,6 +6,7 @@ import {
     LOGIN_USER_FAIL,
     LOGIN_USER
 } from './types'
+import { Actions } from 'react-native-router-flux'
 
 // REDUX THUNK - handles async action creators
 // "action creators are functions, must return a function. the function will be called with 'dispatch'"
@@ -56,4 +57,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     })
+    // <Scene key="employeeList">
+    // Actions.employeeList() // puts backEmployeesList button, need to navigate through intermediary 'main'
+    Actions.main() // shows first scene inside of it which is employeeList
 }
