@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Picker, Text } from 'react-native'
-import { employeeUpdate } from '../../actions'
+import { employeeUpdate, employeeCreate } from '../../actions'
 import { Card, CardSection, InputCustom, ButtonCustom } from '../common'
 
 /*
@@ -22,6 +22,13 @@ allow create: if request.auth.uid != userId;
 */
 
 class EmployeeCreate extends Component {
+    // #2 componentWillMount could default value of shift to Monday
+    onButtonPress() {
+        const { name, phone, shift } = this.props
+
+        this.props.employeeCreate({ name, phone, shift: shift || 'Monday' }) // #3 defaults selection if none selected
+    }
+
     // no style property automatically consumed in CardSection, because CardSection is a component we put to gether. However Picker and react-native components can accept style: flex-direction
     render() {
         return (
@@ -62,7 +69,7 @@ class EmployeeCreate extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <ButtonCustom>
+                    <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
                         Create
                     </ButtonCustom>
                 </CardSection>
@@ -84,4 +91,4 @@ const mapStateToProps = (state) => {
     return { name, phone, shift }
 }
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate)
+export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate)
