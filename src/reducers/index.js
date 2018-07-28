@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import LibraryReducer from './LibraryReducer'
 import SelectionReducer from './SelectionReducer'
 import EmployeeFormReducer from './EmployeeFormReducer'
+import EmployeeReducer from './EmployeeReducer'
 
 // Manager App
 import AuthReducer from './AuthReducer'
@@ -13,5 +14,6 @@ export default combineReducers({
 
     // Manager App
     auth: AuthReducer,
-    employeeForm: EmployeeFormReducer
+    employeeForm: EmployeeFormReducer,
+    employees: EmployeeReducer
 })
