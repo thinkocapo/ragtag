@@ -1,6 +1,10 @@
 import firebase from 'firebase'
 import {Actions} from 'react-native-router-flux'
-import { EMPLOYEE_UPDATE, EMPLOYEE_CREATE } from './types'
+import { 
+    EMPLOYEE_UPDATE, 
+    EMPLOYEE_CREATE, 
+    EMPLOYEES_FETCH_SUCCESS 
+} from './types'
 
 export const employeeUpdate = ({ prop, value }) => {
     return {
@@ -30,5 +34,21 @@ export const employeeCreate = ({ name, phone, shift }) => {
             // .then(() => Actions.employeeList({ type: 'reset' }) ) // * View * got stacked, we wanna return to one, not add one on top * so use type: reset - WON'T WORK, GO TO MAIN()
             // https://github.com/react-navigation/react-navigation/issues/2270
             // https://github.com/react-navigation/react-navigation/issues/1127
+    }
+}
+
+export const employeesFetch = () => {
+    const { currentUser } = firebase.auth()
+
+    // * Triggers anytime new data comes across * like a WATCH
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees`)
+            .on('value', snapshot => {
+                // console.log("SNAPSHOT", snapshot) // * not an array of all employees. its an object that describes what data is in there
+                dispatch({ 
+                    type: EMPLOYEES_FETCH_SUCCESS,
+                    payload: snapshot.val()
+                })
+            })
     }
 }
