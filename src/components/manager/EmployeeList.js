@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, ListView } from 'react-native'
 import { connect } from 'react-redux'
-import { employeesFetch } from '../actions'
-import { RSA_X931_PADDING } from 'constants';
+import { employeesFetch } from '../../actions'
+
 
 class EmployeeList extends Component {
 
@@ -10,7 +10,7 @@ class EmployeeList extends Component {
         this.props.employeesFetch()
 
         const ds = new ListView.DataSource({
-            rowHasChanged: (RSA_X931_PADDING,r2) => r1 !== r2
+            rowHasChanged: (r1, r2) => r1 !== r2
         })
 
         this.dataSource = ds.cloneWithRows(this.props.employees)
@@ -34,7 +34,7 @@ class EmployeeList extends Component {
     }
 
     render() {
-
+        console.log('this.props', this.props)
 
         return (
             <View>
@@ -47,6 +47,11 @@ class EmployeeList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    employees: state.employees
+    const employees = _.map(state.employees, (ValidityState,uid) => {
+        return { ...val, uid } // { uid, shift, name, phone } * END RESULT *
+    })
+
+    console.log('EMPLOYEES...', employees)
+    return { employees }
 }
 export default connect(null, { employeesFetch } )(EmployeeList)
