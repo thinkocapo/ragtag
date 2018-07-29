@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, ListView } from 'react-native'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import { employeesFetch } from '../../actions'
 
 
@@ -20,7 +21,6 @@ class EmployeeList extends Component {
     // "only gets called with new set of argumnts, which are nextProps"
     // "this.props is still the old set of props"
     componentWillReceiveProps(nextProps) {
-        console.log('COMPONENTWILLRECEIVEPROPS...')
         this.createDataSource(nextProps)
     }
 
@@ -34,24 +34,19 @@ class EmployeeList extends Component {
     }
 
     render() {
-        console.log('this.props', this.props)
-
         return (
             <View>
                 <Text>Emp List1</Text>
-                <Text>Emp List2</Text>
-                <Text>Emp List3</Text>
             </View>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const employees = _.map(state.employees, (ValidityState,uid) => {
+    const employees = _.map(state.employees, (val, uid) => {
         return { ...val, uid } // { uid, shift, name, phone } * END RESULT *
     })
 
-    console.log('EMPLOYEES...', employees)
     return { employees }
 }
-export default connect(null, { employeesFetch } )(EmployeeList)
+export default connect(mapStateToProps, { employeesFetch } )(EmployeeList)

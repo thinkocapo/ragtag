@@ -40,12 +40,11 @@ export const employeeCreate = ({ name, phone, shift }) => {
 export const employeesFetch = () => {
     const { currentUser } = firebase.auth()
 
-
     // * Triggers anytime new data comes across * like a WATCH
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees`)
             .on('value', snapshot => {
-                console.log("SNAPSHOT", snapshot) // not an array of all employees. its an object that describes what data is in there
+                // console.log("SNAPSHOT", snapshot) // * not an array of all employees. its an object that describes what data is in there
                 dispatch({ 
                     type: EMPLOYEES_FETCH_SUCCESS,
                     payload: snapshot.val()

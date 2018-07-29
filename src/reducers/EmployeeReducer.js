@@ -9,8 +9,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case EMPLOYEES_FETCH_SUCCESS:
-            console.log('ACTION', action)
-            // return { ...state, [id]: action.payload}
+            // return { ...state, [id]: action.payload} is what we want, see mapStateToProps in 
             return action.payload
         default:
             return state
