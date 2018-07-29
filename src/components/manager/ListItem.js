@@ -1,19 +1,31 @@
 import React, { Component } from 'react'
-import { ListView } from 'react-native'
+import { ListView, TouchableWithoutFeedback } from 'react-native'
 import { Text } from 'react-native'
 import { CardSection } from '../common'
-// import { connect } from 'react-redux'
+
+import { Actions } from 'react-native-router-flux'
+
+// import { connect } from 'react-redux'?
 
 class ListItem extends Component {
+
+    onRowPress() {
+        Actions.employeeCreate() // **HOPE WORKS...
+    }
+
     render() {
         const { name } = this.props.employee
 
         return (
-            <CardSection>
-                <Text>
-                    {name}
-                </Text>
-            </CardSection>
+            <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+                <View>
+                    <CardSection>
+                        <Text>
+                            {name}
+                        </Text>
+                    </CardSection>
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 }
