@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux'
 class ListItem extends Component {
 
     onRowPress() {
-        Actions.employeeCreate({ employee: this.props.employee }) // **HOPE WORKS...
+        Actions.employeeEdit({ employee: this.props.employee }) // * Actions.employerCreate does work, not getting error saying to call Actions.main like did in another area *
     }
 
     render() {
