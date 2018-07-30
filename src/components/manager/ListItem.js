@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ListView, TouchableWithoutFeedback } from 'react-native'
+import { ListView, View, TouchableWithoutFeedback } from 'react-native'
 import { Text } from 'react-native'
 import { CardSection } from '../common'
 
@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux'
 class ListItem extends Component {
 
     onRowPress() {
-        Actions.employeeCreate() // **HOPE WORKS...
+        Actions.employeeCreate({ employee: this.props.employee }) // **HOPE WORKS...
     }
 
     render() {
