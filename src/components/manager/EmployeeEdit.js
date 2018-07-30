@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { Picker, Text } from 'react-native'
-import { Card, CardSection, InputCustom, ButtonCustom } from '../common'
+import Communications from 'react-native-communications'
+import { Card, CardSection, ButtonCustom } from '../common'
 import EmployeeForm from './EmployeeForm'
 import { employeeUpdate, employeeSave } from '../../actions' // Update is for Reducer, Save is for Firebase
-
 // *TODO My own ESLint settings
 
 // EmployeeList gets its data from Firebase every time, so even if you change data here to props.employee,
@@ -22,15 +21,31 @@ class EmployeeEdit extends Component {
         this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid })
 
     }
+
+    onTextPress() {
+        const { phone, shift } = this.props
+
+        Communications.text(phone, `Your upcoming shift is on ${shift}`)
+    }
+
     render() {
         return (
             <Card>
+
                 <EmployeeForm />
+
                 <CardSection>
                     <ButtonCustom onMyPress={this.onButtonPress.bind(this)}>
                         Save Changes
                     </ButtonCustom>
                 </CardSection>
+
+                <CardSection>
+                    <ButtonCustom onMyPress={this.onTextPress.bind(this)}>
+                        Text Schedulel
+                    </ButtonCustom>
+                </CardSection>
+                
             </Card>
         )
     }
