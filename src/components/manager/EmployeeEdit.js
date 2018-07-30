@@ -19,7 +19,6 @@ class EmployeeEdit extends Component {
     }
     onButtonPress() {
         const { name, phone, shift } = this.props // came from employeeForm
-        console.log("n p s", name, phone, shift)
         this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid })
 
     }
