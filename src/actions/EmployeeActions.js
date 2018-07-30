@@ -3,7 +3,8 @@ import {Actions} from 'react-native-router-flux'
 import { 
     EMPLOYEE_UPDATE, 
     EMPLOYEE_CREATE, 
-    EMPLOYEES_FETCH_SUCCESS 
+    EMPLOYEES_FETCH_SUCCESS,
+    EMPLOYEE_SAVE_SUCCESS
 } from './types'
 
 export const employeeUpdate = ({ prop, value }) => {
@@ -50,5 +51,18 @@ export const employeesFetch = () => {
                     payload: snapshot.val()
                 })
             })
+    }
+}
+
+export const employeeSave = ({ name, phone, shift, uid }) => {
+    const { currentUser } = firebase.auth()
+
+    return () => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+            .set({ name, phone, shift })
+            dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
+
+            // .then(() => Actions.employeeList({ type: 'reset'})) // reset the "View Stack" * //ERROR "there is no route defined for employeeList. Must be one of: 'auth','main'"
+            .then(() => Actions.main()) // reset the "View Stack" *
     }
 }
