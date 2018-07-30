@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import Communications from 'react-native-communications'
-import { Card, CardSection, ButtonCustom } from '../common'
+import { Card, CardSection, ButtonCustom, ModalConfirm } from '../common'
 import EmployeeForm from './EmployeeForm'
 import { employeeUpdate, employeeSave } from '../../actions' // Update is for Reducer, Save is for Firebase
 // *TODO My own ESLint settings
