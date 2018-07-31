@@ -57,12 +57,27 @@ export const employeesFetch = () => {
 export const employeeSave = ({ name, phone, shift, uid }) => {
     const { currentUser } = firebase.auth()
 
-    return () => {
+    return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
             .set({ name, phone, shift })
-            dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
-
             // .then(() => Actions.employeeList({ type: 'reset'})) // reset the "View Stack" * //ERROR "there is no route defined for employeeList. Must be one of: 'auth','main'"
-            .then(() => Actions.main()) // reset the "View Stack" *
+            .then(() => {
+                Actions.main() // reset the "View Stack" *
+                dispatch({ type: EMPLOYEE_SAVE_SUCCESS })
+            }) 
+    }
+}
+
+export const employeeDelete = ({ uid }) => {
+    const { currentUser } = firebase.auth()
+
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+            .remove()
+            .then(() => {
+                //ERROR "there is no route defined for employeeList. Must be one of: 'auth','main'"
+                // Actions.employeeList({ type: 'reset' })
+                Actions.main()
+            })
     }
 }
