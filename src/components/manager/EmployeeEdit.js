@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import Communications from 'react-native-communications'
+import { Text } from 'react-native'
 import { Card, CardSection, ButtonCustom, ModalConfirm } from '../common'
 import EmployeeForm from './EmployeeForm'
 import { employeeUpdate, employeeSave } from '../../actions' // Update is for Reducer, Save is for Firebase
@@ -11,6 +12,8 @@ import { employeeUpdate, employeeSave } from '../../actions' // Update is for Re
 // you can leave the screen without pressing Save and EmployeeList will get Firebase data again...
 // When click touch/click the employee it will set props.employee again with the Firebase data
 class EmployeeEdit extends Component {
+    state = { showModal: false }
+
     componentWillMount() {
         _.each(this.props.employee, (value, prop) => {
             this.props.employeeUpdate({ prop, value}) // update our form reducer with every property
@@ -46,6 +49,18 @@ class EmployeeEdit extends Component {
                     </ButtonCustom>
                 </CardSection>
                 
+                <CardSection>
+                    <ButtonCustom onMyPress={() => this.setState({ showModal: !this.state.showModal })}>
+                        Fire Employee
+                    </ButtonCustom>
+                </CardSection>
+
+                <ModalConfirm
+                    visible={this.state.showModal}
+                >
+                    Are you sure you want to delete this?
+                </ModalConfirm>
+
             </Card>
         )
     }
