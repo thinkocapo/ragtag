@@ -12,6 +12,12 @@ import { Header } from './components/common'
 import Router from './Router'
 
 // https://facebook.github.io/react-native/docs/linking-libraries-ios
+/**
+ * 
+ * Look at node_modules/react-native-maps/lib/components/MapView and look for AIRMap references, says what to do in iOS setup, XCode, try this
+ * and/or
+ * See if running on Android works too. run on android first with a <Text> instead of <MapView>, make sure that works... then try the MapView.
+ */
 
 class AppRagTag extends Component {
 
