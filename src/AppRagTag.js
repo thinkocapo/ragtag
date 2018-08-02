@@ -1,18 +1,19 @@
 import React, {Component} from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk' // middleware
-import reducers from './reducers'
+// import MapView from 'react-native-maps';
+import firebase from 'firebase'
 
+import reducers from './reducers'
 import { Header } from './components/common'
 // // import LoginForm from './components/manager/LoginForm'
 import Router from './Router'
 
-import firebase from 'firebase'
 
 
-class RagTag extends Component {
+class AppRagTag extends Component {
 
     async componentWillMount() {
         // const firebaseInitialized = await firebase.initializeApp({
@@ -43,4 +44,4 @@ class RagTag extends Component {
     }
 }
 
-export default RagTag
+export default AppRagTag
