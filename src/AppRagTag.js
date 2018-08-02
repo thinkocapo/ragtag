@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk' // middleware
-// import MapView from 'react-native-maps';
+import MapView from 'react-native-maps';
 import firebase from 'firebase'
 
 import reducers from './reducers'
@@ -11,7 +11,7 @@ import { Header } from './components/common'
 // // import LoginForm from './components/manager/LoginForm'
 import Router from './Router'
 
-
+// https://facebook.github.io/react-native/docs/linking-libraries-ios
 
 class AppRagTag extends Component {
 
@@ -34,14 +34,32 @@ class AppRagTag extends Component {
         // <Header headerText="Manager Stack App"/>
         return (
             <Provider store={store}>
-                <View style={ { flex: 1 } }>
-                    <View>
-                        <Text>RAG TAG !!!</Text>
-                    </View>
-                </View>
+                <MapView
+                    style={styles.map}
+                    region={{
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                    }}
+                >
+                </MapView>
             </Provider>
         )
     }
 }
+
+const styles = StyleSheet.create({
+ container: {
+   ...StyleSheet.absoluteFillObject,
+   height: 400,
+   width: 400,
+   justifyContent: 'flex-end',
+   alignItems: 'center',
+ },
+ map: {
+   ...StyleSheet.absoluteFillObject,
+ },
+});
 
 export default AppRagTag
