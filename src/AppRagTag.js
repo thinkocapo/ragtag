@@ -1,81 +1,102 @@
 import React, {Component} from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { Provider } from 'react-redux'
+import { View, Text } from 'react-native'
+import { Provider, connect } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import ReduxThunk from 'redux-thunk' // middleware
+import ReduxThunk from 'redux-thunk'
 import firebase from 'firebase'
-
-import MapView,  { PROVIDER_GOOGLE } from 'react-native-maps';
-
-
+import {
+    RAGTAG_API_KEY, RAGTAG_AUTH_DOMAIN, RAGTAG_DATABASE_URL, RAGTAG_PROJECT_ID, RAGTAG_STORAGE_BUCKET, RAGTAG_MESSAGING_SENDER_ID,
+} from 'react-native-dotenv'
 import reducers from './reducers'
-import { Header } from './components/common'
-// // import LoginForm from './components/manager/LoginForm'
+import { Header, SpinnerCustom } from './components/common'
 import Router from './Router'
+import Map from './components/ragtag/map'
+
+
+// 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
+// 3rd arg is a Store Enhancer (additional functionalities to our store)
+const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 
 // https://facebook.github.io/react-native/docs/linking-libraries-ios
-/**
- * 
- * Look at node_modules/react-native-maps/lib/components/MapView and look for AIRMap references, says what to do in iOS setup, XCode, try this
- * and/or
- * See if running on Android works too. run on android first with a <Text> instead of <MapView>, make sure that works... then try the MapView.
- */
+// don't put uid in redux, its available in firebase.auth() method
 
-// https://github.com/alvelig/react-native-maps-pods-example
-// therealgilles https://github.com/react-community/react-native-maps/issues/789
+//https://stackoverflow.com/questions/37883981/cant-get-currentuser-on-load
+// const { currentUser } = firebase.auth() // or const currentUser 
+// const currentUser = await firebase.auth() // or const currentUser 
 
-// big instructions https://gist.github.com/heron2014/e60fa003e9b117ce80d56bb1d5bfe9e0
-// https://github.com/googlemaps/google-maps-ios-utils/blob/master/samples/ObjCDemoApp/ObjCDemoApp/AppDelegate.m
-
+// TODO
+// Loader icon
+// pop-up prompt for signup?
 class AppRagTag extends Component {
 
     async componentWillMount() {
-        // const firebaseInitialized = await firebase.initializeApp({
-        //     apiKey: MANAGER_API_KEY,
-        //     authDomain: MANAGER_AUTH_DOMAIN,
-        //     databaseURL: MANAGER_DATABASE_URL,
-        //     projectId: MANAGER_PROJECT_ID,
-        //     storageBucket: MANAGER_STORAGE_BUCKET,
-        //     messagingSenderId: MANAGER_MESSAGING_SENDER_ID
-        // }) 
-        // console.log('firebase initialized:', firebaseInitialized) //shows config values
 
+        const firebaseInitialized = await firebase.initializeApp({
+            apiKey: RAGTAG_API_KEY,
+            authDomain: RAGTAG_AUTH_DOMAIN,
+            databaseURL: RAGTAG_DATABASE_URL,
+            projectId: RAGTAG_PROJECT_ID,
+            storageBucket: RAGTAG_STORAGE_BUCKET,
+            messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
+        }) 
+        console.log('firebase initialized:::', firebaseInitialized) //shows config values
+        
+        
+
+        // 2ND ATTEMPT - working...
+        // firebase.auth().onAuthStateChanged((currentUser) => { 
+        //     console.log('currentUser', currentUser.uid)
+        //     if (currentUser.uid) {
+        //         console.log('currentUser:::exists', currentUser.uid)
+        //     } else {
+        //         console.log('currentUser:::null mock sign them up by hardcoding email/pw...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+        //         firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+        //             .then(user => {
+        //                 console.log('SUCCESSFULLY CREATED USER ...')
+        //                 const { currentUser } = firebase.auth() // or const currentUser 
+        //                 console.log('and the currentUser is ...', currentUser.uid)
+    
+        //             })
+        //             .catch(() => {
+        //                 console.log('DID NOT SUCCEED TO CREATED USER ...')
+        //             })
+        //     }
+        // })
+
+
+        // ORIGINAL
+        // if (currentUser === null || currentUser === undefined) {
+        //     console.log('currentUser:::null mock sign them up by hardcoding email/pw...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+        //     firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+        //         .then(user => {
+        //             console.log('SUCCESSFULLY CREATED USER ...')
+        //             const { currentUser } = firebase.auth() // or const currentUser 
+        //             console.log('and the currentUser is ...', currentUser.uid)
+
+        //         })
+        //         .catch(() => {
+        //             console.log('DID NOT SUCCEED TO CREATED USER ...')
+        //         })
+        // } else {
+        //     console.log('currentUser:::exists', currentUser.uid)
+        // }
     }
+
     render() {
-        console.log('PROVIDER_GOOGLE', PROVIDER_GOOGLE)
-        // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
-        // 3rd arg is a Store Enhancer (additional functionalities to our store)
-        const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
+    
+        // Could make header with menu/buttons for Nav in Rag Tag
         // <Header headerText="Manager Stack App"/>
+
         return (
             <Provider store={store}>
-                <MapView
-                    provider="google"
-                    style={styles.map}
-                    region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                    }}
-                >
-                </MapView>
+                <View style={ { flex: 1 } }>
+                    <Header headerText="RAG TAG"/>
+                    <Map />
+                </View>
             </Provider>
         )
     }
 }
 
-const styles = StyleSheet.create({
- container: {
-   ...StyleSheet.absoluteFillObject,
-   height: 400,
-   width: 400,
-   justifyContent: 'flex-end',
-   alignItems: 'center',
- },
- map: {
-   ...StyleSheet.absoluteFillObject,
- },
-});
 
 export default AppRagTag
