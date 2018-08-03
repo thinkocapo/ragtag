@@ -3,8 +3,10 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk' // middleware
-import MapView from 'react-native-maps';
 import firebase from 'firebase'
+
+import MapView,  { PROVIDER_GOOGLE } from 'react-native-maps';
+
 
 import reducers from './reducers'
 import { Header } from './components/common'
@@ -18,6 +20,12 @@ import Router from './Router'
  * and/or
  * See if running on Android works too. run on android first with a <Text> instead of <MapView>, make sure that works... then try the MapView.
  */
+
+// https://github.com/alvelig/react-native-maps-pods-example
+// therealgilles https://github.com/react-community/react-native-maps/issues/789
+
+// big instructions https://gist.github.com/heron2014/e60fa003e9b117ce80d56bb1d5bfe9e0
+// https://github.com/googlemaps/google-maps-ios-utils/blob/master/samples/ObjCDemoApp/ObjCDemoApp/AppDelegate.m
 
 class AppRagTag extends Component {
 
@@ -34,6 +42,7 @@ class AppRagTag extends Component {
 
     }
     render() {
+        console.log('PROVIDER_GOOGLE', PROVIDER_GOOGLE)
         // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
         // 3rd arg is a Store Enhancer (additional functionalities to our store)
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
@@ -41,6 +50,7 @@ class AppRagTag extends Component {
         return (
             <Provider store={store}>
                 <MapView
+                    provider="google"
                     style={styles.map}
                     region={{
                     latitude: 37.78825,
