@@ -50,7 +50,8 @@ class Map extends Component {
 
     render() {
         return (
-            <MapView
+            <View style={{flex: 1}}>
+                <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     region={this.state.region}
@@ -67,6 +68,7 @@ class Map extends Component {
                         />
                     ))}
                 </MapView>
+            </View>
         )
     }
 }
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFillObject
     },
 })
 

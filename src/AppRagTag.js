@@ -6,11 +6,11 @@ import ReduxThunk from 'redux-thunk' // middleware
 import firebase from 'firebase'
 import {RAGTAG_API_KEY, RAGTAG_AUTH_DOMAIN, RAGTAG_DATABASE_URL, RAGTAG_PROJECT_ID, RAGTAG_STORAGE_BUCKET, RAGTAG_MESSAGING_SENDER_ID} from 'react-native-dotenv'
 
-
 import reducers from './reducers'
 import { Header } from './components/common'
 import Router from './Router'
 import Map from './components/ragtag/map'
+
 
 // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
 // 3rd arg is a Store Enhancer (additional functionalities to our store)
@@ -30,7 +30,11 @@ class AppRagTag extends Component {
             messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
         }) 
         console.log('firebase initialized:::', firebaseInitialized) //shows config values
-
+        
+        // don't put uid in redux, its available in firebase.auth() method
+        // const { currentUser } = firebase.auth() // or const currentUser 
+        // console.log('currentUser:::', currentUser) // blank if no user signed up yet...?
+        // pop-up for signup?
     }
 
     render() {
@@ -40,7 +44,10 @@ class AppRagTag extends Component {
 
         return (
             <Provider store={store}>
-                <Map />
+                <View style={ { flex: 1 } }>
+                    <Header headerText="RAG TAG"/>
+                    <Map />
+                </View>
             </Provider>
         )
     }
