@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk' // middleware
 import firebase from 'firebase'
+import {RAGTAG_API_KEY, RAGTAG_AUTH_DOMAIN, RAGTAG_DATABASE_URL, RAGTAG_PROJECT_ID, RAGTAG_STORAGE_BUCKET, RAGTAG_MESSAGING_SENDER_ID} from 'react-native-dotenv'
+
 
 import reducers from './reducers'
 import { Header } from './components/common'
@@ -19,15 +21,15 @@ const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 class AppRagTag extends Component {
 
     async componentWillMount() {
-        // const firebaseInitialized = await firebase.initializeApp({
-        //     apiKey: MANAGER_API_KEY,
-        //     authDomain: MANAGER_AUTH_DOMAIN,
-        //     databaseURL: MANAGER_DATABASE_URL,
-        //     projectId: MANAGER_PROJECT_ID,
-        //     storageBucket: MANAGER_STORAGE_BUCKET,
-        //     messagingSenderId: MANAGER_MESSAGING_SENDER_ID
-        // }) 
-        // console.log('firebase initialized:', firebaseInitialized) //shows config values
+        const firebaseInitialized = await firebase.initializeApp({
+            apiKey: RAGTAG_API_KEY,
+            authDomain: RAGTAG_AUTH_DOMAIN,
+            databaseURL: RAGTAG_DATABASE_URL,
+            projectId: RAGTAG_PROJECT_ID,
+            storageBucket: RAGTAG_STORAGE_BUCKET,
+            messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
+        }) 
+        console.log('firebase initialized:::', firebaseInitialized) //shows config values
 
     }
 
