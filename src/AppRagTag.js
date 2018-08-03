@@ -9,9 +9,11 @@ import {
     RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD
 } from 'react-native-dotenv'
 import reducers from './reducers'
-import { Header } from './components/common'
+import { Header, SpinnerCustom } from './components/common'
 import Router from './Router'
 import Map from './components/ragtag/map'
+import { loginUserRagTag } from './actions'
+
 
 // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
 // 3rd arg is a Store Enhancer (additional functionalities to our store)
@@ -30,6 +32,7 @@ const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 class AppRagTag extends Component {
 
     async componentWillMount() {
+
         const firebaseInitialized = await firebase.initializeApp({
             apiKey: RAGTAG_API_KEY,
             authDomain: RAGTAG_AUTH_DOMAIN,
@@ -40,25 +43,27 @@ class AppRagTag extends Component {
         }) 
         console.log('firebase initialized:::', firebaseInitialized) //shows config values
         
+        this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
 
-        firebase.auth().onAuthStateChanged((currentUser) => { 
-            console.log('currentUser', currentUser.uid)
-            if (currentUser.uid) {
-                console.log('currentUser:::exists', currentUser.uid)
-            } else {
-                console.log('currentUser:::null mock sign them up by hardcoding email/pw...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
-                firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
-                    .then(user => {
-                        console.log('SUCCESSFULLY CREATED USER ...')
-                        const { currentUser } = firebase.auth() // or const currentUser 
-                        console.log('and the currentUser is ...', currentUser.uid)
+        // 2ND ATTEMPT - working...
+        // firebase.auth().onAuthStateChanged((currentUser) => { 
+        //     console.log('currentUser', currentUser.uid)
+        //     if (currentUser.uid) {
+        //         console.log('currentUser:::exists', currentUser.uid)
+        //     } else {
+        //         console.log('currentUser:::null mock sign them up by hardcoding email/pw...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+        //         firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+        //             .then(user => {
+        //                 console.log('SUCCESSFULLY CREATED USER ...')
+        //                 const { currentUser } = firebase.auth() // or const currentUser 
+        //                 console.log('and the currentUser is ...', currentUser.uid)
     
-                    })
-                    .catch(() => {
-                        console.log('DID NOT SUCCEED TO CREATED USER ...')
-                    })
-            }
-        })
+        //             })
+        //             .catch(() => {
+        //                 console.log('DID NOT SUCCEED TO CREATED USER ...')
+        //             })
+        //     }
+        // })
 
 
         // ORIGINAL
@@ -79,6 +84,12 @@ class AppRagTag extends Component {
         // }
     }
 
+    renderSpinnerOrNot() {
+        if (this.props.loading) {
+            return <SpinnerCustom size="large" />
+        }
+    }
+
     render() {
     
         // Could make header with menu/buttons for Nav in Rag Tag
@@ -89,12 +100,21 @@ class AppRagTag extends Component {
                 <View style={ { flex: 1 } }>
                     <Header headerText="RAG TAG"/>
                     <Map />
+                    {this.renderSpinnerOrNot}
+                    {/* {this.renderError()} */}
+
                 </View>
             </Provider>
         )
     }
 }
 
+const mapStateToProps = state => {
+    console.log('STATE', state)
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    }
+}
 
-
-export default AppRagTag
+export default connect(mapStateToProps, { loginUserRagTag })(AppRagTag)
