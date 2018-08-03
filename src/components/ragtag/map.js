@@ -5,6 +5,7 @@ import { loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
+import { SpinnerCustom } from '../common'
 
 class Map extends Component {
 
@@ -75,7 +76,7 @@ class Map extends Component {
                         />
                     ))}
                 </MapView>
-                {this.renderSpinnerOrNot}
+                {this.renderSpinnerOrNot()}
                 {/* {this.renderError()} */}
             </View>
         )
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('STATE', state)
+    console.log('map.js STATE', state)
     return {
         loading: state.auth.loading,
         error: state.auth.error
