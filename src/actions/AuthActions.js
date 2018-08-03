@@ -55,10 +55,6 @@ export const loginUserRagTag = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
-        const { currentUser} = firebase.auth()
-        console.log('1 currentUser    ', currentUser)
-        console.log('1 currentUser.uid', currentUser.uid)
-
         return
         // firebase.auth().onAuthStateChanged((currentUser) => { 
         //     console.log('2 currentUser', currentUser.uid)

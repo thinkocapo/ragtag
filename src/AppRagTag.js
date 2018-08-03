@@ -1,18 +1,16 @@
 import React, {Component} from 'react'
 import { View, Text } from 'react-native'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import firebase from 'firebase'
 import {
     RAGTAG_API_KEY, RAGTAG_AUTH_DOMAIN, RAGTAG_DATABASE_URL, RAGTAG_PROJECT_ID, RAGTAG_STORAGE_BUCKET, RAGTAG_MESSAGING_SENDER_ID,
-    RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD
 } from 'react-native-dotenv'
 import reducers from './reducers'
 import { Header, SpinnerCustom } from './components/common'
 import Router from './Router'
 import Map from './components/ragtag/map'
-import { loginUserRagTag } from './actions'
 
 
 // 2nd arg {} is for any additional state we want to pass to our redux application. e.g. email/pw flag for our auth reducer. more for server-side rendering
@@ -43,7 +41,7 @@ class AppRagTag extends Component {
         }) 
         console.log('firebase initialized:::', firebaseInitialized) //shows config values
         
-        this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        
 
         // 2ND ATTEMPT - working...
         // firebase.auth().onAuthStateChanged((currentUser) => { 
@@ -84,12 +82,6 @@ class AppRagTag extends Component {
         // }
     }
 
-    renderSpinnerOrNot() {
-        if (this.props.loading) {
-            return <SpinnerCustom size="large" />
-        }
-    }
-
     render() {
     
         // Could make header with menu/buttons for Nav in Rag Tag
@@ -100,21 +92,11 @@ class AppRagTag extends Component {
                 <View style={ { flex: 1 } }>
                     <Header headerText="RAG TAG"/>
                     <Map />
-                    {this.renderSpinnerOrNot}
-                    {/* {this.renderError()} */}
-
                 </View>
             </Provider>
         )
     }
 }
 
-const mapStateToProps = state => {
-    console.log('STATE', state)
-    return {
-        loading: state.auth.loading,
-        error: state.auth.error
-    }
-}
 
-export default connect(mapStateToProps, { loginUserRagTag })(AppRagTag)
+export default AppRagTag

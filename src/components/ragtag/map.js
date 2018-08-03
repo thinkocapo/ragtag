@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-// import {  } from '../../actions'
+import { loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
+import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 
 class Map extends Component {
 
@@ -18,7 +19,7 @@ class Map extends Component {
     }
 
     componentWillMount() {
-
+        this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
 
     // * ABOUT TO RECEIVE NEW PROPS TO RENDER COMPONENT WITH *
@@ -29,7 +30,7 @@ class Map extends Component {
     }
 
     handleOnPress(nativeEvent) {
-        console.log('handleOnPress...', nativeEvent)
+        // console.log('handleOnPress...', nativeEvent)
         /*
             action:"marker-press"
             coordinate:{longitude: -122.4324, latitude: 37.78825}
@@ -46,6 +47,12 @@ class Map extends Component {
 
     renderMarker(data) {
         // return <ListItem employee={employee} />
+    }
+
+    renderSpinnerOrNot() {
+        if (this.props.loading) {
+            return <SpinnerCustom size="large" />
+        }
     }
 
     render() {
@@ -68,6 +75,8 @@ class Map extends Component {
                         />
                     ))}
                 </MapView>
+                {this.renderSpinnerOrNot}
+                {/* {this.renderError()} */}
             </View>
         )
     }
@@ -87,6 +96,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    console.log('STATE', state)
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error
+    }
 }
-export default connect(mapStateToProps, {})(Map)
+export default connect(mapStateToProps, { loginUserRagTag })(Map)
