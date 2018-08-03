@@ -50,7 +50,7 @@ class AppRagTag extends Component {
         return (
             <Provider store={store}>
                 <MapView
-                    provider="google"
+                    provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     region={{
                     latitude: 37.78825,
