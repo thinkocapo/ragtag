@@ -56,21 +56,20 @@ export const loginUserRagTag = ({ email, password }) => {
         dispatch({ type: LOGIN_USER })
 
         firebase.auth().onAuthStateChanged((currentUser) => { 
-            console.log('2 currentUser', currentUser.uid)
+            console.log('currentUser.uid', currentUser.uid)
             if (currentUser.uid) {
-                console.log('currentUser:::exists', currentUser.uid)
                 loginUserSuccessRagTag(dispatch, currentUser)
             } else {
-                console.log('currentUser:::null mock sign them up by hardcoding email/pw...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+                console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
-                        console.log('SUCCESSFULLY CREATED USER ...')
+                        console.log('created user', user)
                         const { currentUser } = firebase.auth() // or const currentUser 
-                        console.log('and the currentUser is ...', currentUser.uid)
+                        console.log('currentUser', currentUser.uid)
                         loginUserSuccessRagTag(dispatch, user)
                     })
                     .catch(() => {
-                        console.log('DID NOT SUCCEED TO CREATED USER ...')
+                        console.log('failed to create new user ...')
                         loginUserFail(dispatch)
                     })
             }

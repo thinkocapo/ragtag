@@ -11,12 +11,32 @@ class Map extends Component {
 
     state = {
         markers: markers,
+        initialPosition: '',
         region: {
             latitude: 37.78825,
             longitude: -122.4324,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         }
+    }
+
+    componentDidMount() {
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                console.log('position::', position)                
+                const initialPosition = JSON.stringify(position);
+                this.setState({ initialPosition });
+
+                const latlng = {
+                    latitude: position.coords.latitude,
+                    longitutde: position.coords.longitutde
+                }
+                // Action to Set it in Firebase...
+            },
+            (error) => alert(error.message),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+         );
     }
 
     componentWillMount() {
@@ -31,7 +51,7 @@ class Map extends Component {
     }
 
     handleOnPress(nativeEvent) {
-        console.log('handleOnPress...', nativeEvent)
+        console.log('marker pressed', nativeEvent)
         /*
             action:"marker-press"
             coordinate:{longitude: -122.4324, latitude: 37.78825}
@@ -97,7 +117,6 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('map.js STATE', state)
     return {
         loading: state.auth.loading,
         error: state.auth.error

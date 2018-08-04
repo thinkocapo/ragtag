@@ -83,10 +83,6 @@ class AppRagTag extends Component {
     }
 
     render() {
-    
-        // Could make header with menu/buttons for Nav in Rag Tag
-        // <Header headerText="Manager Stack App"/>
-
         return (
             <Provider store={store}>
                 <View style={ { flex: 1 } }>
