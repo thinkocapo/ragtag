@@ -7,7 +7,7 @@ import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
 import { watchPosition } from '../../modules'
-import { getCurrentPosition } from '../../actions'
+import { getAndSetCurrentPosition } from '../../actions'
 
 // renderMarker(data) {
     // return <ListItem employee={employee} />
@@ -27,8 +27,7 @@ class Map extends Component {
     }
 
     componentDidMount() {
-        this.props.getCurrentPosition()
-        // watchPosition()
+        this.props.getAndSetCurrentPosition()
     }
     componentWillMount() {
         this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
@@ -125,4 +124,4 @@ const mapStateToProps = (state, ownProps) => {
         error: state.auth.error
     }
 }
-export default connect(mapStateToProps, { getCurrentPosition, loginUserRagTag })(Map)
+export default connect(mapStateToProps, { getAndSetCurrentPosition, loginUserRagTag })(Map)
