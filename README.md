@@ -83,9 +83,27 @@ Then you can research and try passing all sorts of args like:
 cd react-native run-android
 react-native run-android
 ```
-runs with no errors :)
-15. Problem - LiveReloading not working after makign changes to javascript source files.
+runs with no errors :)  
+15. Problem - LiveReloading not working after makign changes to javascript source files.  
 16. Solution - command+m for Developer Menu, Enable LiveReload
+
+If you get any error about 'Missing Platform: NDK' then go into AndroidStudio SDK Manager and install the 'NDK' plug-in.
+
+Errors on react:react-native-maps...
+```
+compileOnly "com.facebook.react:react-native:+"
+implementation "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+implementation "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+implementation "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
+```
+  needs to be:
+```
+  provided "com.facebook.react:react-native:+"
+  compile "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+  compile "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+  compile "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
+```
+https://github.com/react-native-community/react-native-camera/issues/1490
 
 ### USB To Physical Mobile Device
 1. connect device via USB. enable developer options(link)
