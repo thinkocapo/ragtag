@@ -9,37 +9,32 @@ import { SpinnerCustom } from '../common'
 import { watchPosition } from '../../modules'
 import { getCurrentPosition } from '../../actions'
 
+// renderMarker(data) {
+    // return <ListItem employee={employee} />
+// }
 class Map extends Component {
 
     state = {
         markers: markers,
         initialPosition: '',
-
-        // MOVING TO REDUX...
-
-        // region: getCurrentPosition()
-
-        region: {
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }
+        // Moved to Redux...
+        // region: {
+        //     latitude: 37.78825,
+        //     longitude: -122.4324,
+        //     latitudeDelta: 0.0922,
+        //     longitudeDelta: 0.0421,
+        // }
     }
 
     componentDidMount() {
         this.props.getCurrentPosition()
-
         // watchPosition()
     }
-
     componentWillMount() {
         this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
-
-    // * ABOUT TO RECEIVE NEW PROPS TO RENDER COMPONENT WITH * "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
+    // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
-        console.log('-- nextProps --', nextProps)
         // this.setState({ region: nextProps.latlng });
         // this.props.getCurrentPosition()
     }
@@ -64,10 +59,6 @@ class Map extends Component {
         }
     }
 
-    // renderMarker(data) {
-        // return <ListItem employee={employee} />
-    // }
-
     renderSpinnerOrNot() {
         if (this.props.loading) {
             return <SpinnerCustom size="large" />
@@ -75,11 +66,9 @@ class Map extends Component {
     }
 
     render() {
-        console.log('map.js render()...navigator', this.props)
         if (this.props.navigator.loading === true) {
             return <SpinnerCustom size="large" />
         }
-        console.log()
         return (
             <View style={{flex: 1}}>
                 <MapView

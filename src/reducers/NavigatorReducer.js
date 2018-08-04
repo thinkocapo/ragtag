@@ -17,7 +17,6 @@ export default (state = INITIAL_STATE, action) => {
         case REQUEST_POSITION:
         return { ...state,  loading: true, error: '' }
         case REQUEST_POSITION_SUCCESS:
-            console.log('*** ACTION ***', action.payload, action.type)
             action.payload.coords.latitudeDelta = 0.0922
             action.payload.coords.longitudeDelta = 0.0421
             return { ...state, latlng: action.payload.coords, loading: false }

@@ -5,7 +5,6 @@ import {
 } from './types'
 
 export const getCurrentPosition = () => {
-    console.log('NavigatorActions...getCurrenPosition')
     return (dispatch) => {
         dispatch({ type: REQUEST_POSITION })
 
@@ -27,19 +26,6 @@ export const getCurrentPosition = () => {
         );
 
     }
-
-    // return (dispatch) => {
-
-    //     firebase.auth().signInWithEmailAndPassword(email, password)
-    //         .then(user => loginUserSuccess(dispatch, user))
-    //         .catch((err) => {
-    //             console.log(err) // keep this here, because response might come back okay but if reducer throws an error, then this .catch will be reached, which is misleading
-    //             firebase.auth().createUserWithEmailAndPassword(email, password)
-    //                 .then(user => loginUserSuccess(dispatch, user))
-    //                 .catch(() => loginUserFail(dispatch))
-    //         })
-
-    // }
     
 }
 
