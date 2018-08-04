@@ -31,7 +31,7 @@ class Map extends Component {
     }
 
     handleOnPress(nativeEvent) {
-        // console.log('handleOnPress...', nativeEvent)
+        console.log('handleOnPress...', nativeEvent)
         /*
             action:"marker-press"
             coordinate:{longitude: -122.4324, latitude: 37.78825}
