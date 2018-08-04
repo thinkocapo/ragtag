@@ -6,13 +6,15 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
-import { getCurrentPosition, watchPosition } from '../../modules'
+import { watchPosition } from '../../modules'
+import { getCurrentPosition } from '../../actions'
 
 class Map extends Component {
 
     state = {
         markers: markers,
         initialPosition: '',
+        // region: getCurrentPosition()
         region: {
             latitude: 37.78825,
             longitude: -122.4324,
@@ -22,8 +24,9 @@ class Map extends Component {
     }
 
     componentDidMount() {
-        getCurrentPosition()
-        watchPosition()
+        // getCurrentPosition()
+
+        // watchPosition()
     }
 
     componentWillMount() {
@@ -39,18 +42,12 @@ class Map extends Component {
 
     handleOnPress(nativeEvent) {
         console.log('marker pressed', nativeEvent)
-        /*
-            action:"marker-press"
-            coordinate:{longitude: -122.4324, latitude: 37.78825}
-            id:"100"
-            target:2
-        */
-       // Firebase call(sender, receiver)
+        const { actions, coordinate, id, target } = nativeEvent
+        // TODO Firebase call(sender, receiver)
     }
 
     onRegionChange(region) {
-        // this.setState({ region }); // keeps re-firing re-focusing
-        // so do nothing...for now...nothing needed
+        //this.setState({ region }); // keeps re-firing re-focusing // so do nothing...for now...nothing needed
     }
 
     renderError() {
@@ -63,9 +60,9 @@ class Map extends Component {
         }
     }
 
-    renderMarker(data) {
+    // renderMarker(data) {
         // return <ListItem employee={employee} />
-    }
+    // }
 
     renderSpinnerOrNot() {
         if (this.props.loading) {
@@ -74,6 +71,7 @@ class Map extends Component {
     }
 
     render() {
+        console.log('map.js render()...navigator', this.props)
         return (
             <View style={{flex: 1}}>
                 <MapView
@@ -115,11 +113,12 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject
-    },
+    }
 })
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        navigator: state.navigator,
         loading: state.auth.loading,
         error: state.auth.error
     }

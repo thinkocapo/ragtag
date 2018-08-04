@@ -1,23 +1,23 @@
 
-function getCurrentPosition () {
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            console.log('position of user', position)                
-            const initialPosition = JSON.stringify(position);
+// function getCurrentGeoPosition () {
+//     navigator.geolocation.getCurrentPosition(
+//         (position) => {
+//             console.log('position of user', position)                
+//             const initialPosition = JSON.stringify(position);
 
-            // No, better to Redux
-            // this.setState({ initialPosition });
+//             // No, better to Redux
+//             // this.setState({ initialPosition });
     
-            const latlng = {
-                latitude: position.coords.latitude,
-                longitutde: position.coords.longitutde
-            }
-            // Action to Set it in Redux & Firebase...
-        },
-        (error) => alert(error.message),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
-}
+//             const latlng = {
+//                 latitude: position.coords.latitude,
+//                 longitutde: position.coords.longitutde
+//             }
+//             // Action to Set it in Redux & Firebase...
+//         },
+//         (error) => alert(error.message),
+//         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+//     );
+// }
 
 
 // Invokes the success callback whenever the location changes. Returns a watchId (number).
@@ -38,4 +38,4 @@ function watchPosition () {
 }
 
 
-export { getCurrentPosition, watchPosition }
+export { watchPosition }
