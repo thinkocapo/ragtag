@@ -105,6 +105,12 @@ implementation "com.google.maps.android:android-maps-utils:$androidMapsUtilsVers
 ```
 https://github.com/react-native-community/react-native-camera/issues/1490
 
+
+```
+if error 'Objects are not valid as a React child(found: object with keys {$$typeof, type, key, ref, props, _owner, _store}). If you meant to render a collectio nof children, use an array instead
+```
+THen comment out your firebase import. That's not helpful if you need it on app mounting (maybe will work from onButto nclik, not sure) so downgrade firebase version.
+
 ### USB To Physical Mobile Device
 1. connect device via USB. enable developer options(link)
 2.
