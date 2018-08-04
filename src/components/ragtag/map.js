@@ -1,53 +1,67 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
+import { watchPosition } from '../../modules'
+import { getCurrentPosition } from '../../actions'
 
+// renderMarker(data) {
+    // return <ListItem employee={employee} />
+// }
 class Map extends Component {
 
     state = {
         markers: markers,
-        region: {
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }
+        initialPosition: '',
+        // Moved to Redux...
+        // region: {
+        //     latitude: 37.78825,
+        //     longitude: -122.4324,
+        //     latitudeDelta: 0.0922,
+        //     longitudeDelta: 0.0421,
+        // }
     }
 
+    componentDidMount() {
+        this.props.getCurrentPosition()
+        // watchPosition()
+    }
     componentWillMount() {
         this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
-
-    // * ABOUT TO RECEIVE NEW PROPS TO RENDER COMPONENT WITH *
-    // "only gets called with new set of argumnts, which are nextProps"
-    // "this.props is still the old set of props"
+    // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
-        // this.createDataSource(nextProps)
+        // this.setState({ region: nextProps.latlng });
+        // this.props.getCurrentPosition()
     }
 
+    // TODO
+    // componentWillUnmount() {
+    //     navigator.geolocation.clearWatch(this.watchId);
+    // }
+
     handleOnPress(nativeEvent) {
-        // console.log('handleOnPress...', nativeEvent)
-        /*
-            action:"marker-press"
-            coordinate:{longitude: -122.4324, latitude: 37.78825}
-            id:"100"
-            target:2
-        */
-       // Firebase call(sender, receiver)
+        console.log('marker pressed', nativeEvent)
+        const { actions, coordinate, id, target } = nativeEvent
+        // TODO Firebase call(sender, receiver)
     }
 
     onRegionChange(region) {
-        // this.setState({ region }); // keeps re-firing re-focusing
-        // so do nothing...for now...nothing needed
+        //this.setState({ region }); // keeps re-firing re-focusing // so do nothing...for now...nothing needed
     }
 
-    renderMarker(data) {
-        // return <ListItem employee={employee} />
+    renderError() {
+        if (this.props.error) {
+            return (
+                <View style={{ backgroundColor: 'white'}}>
+                    <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+                </View>
+            )
+        }
     }
 
     renderSpinnerOrNot() {
@@ -57,12 +71,15 @@ class Map extends Component {
     }
 
     render() {
+        if (this.props.navigator.loading === true) {
+            return <SpinnerCustom size="large" />
+        }
         return (
             <View style={{flex: 1}}>
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    region={this.state.region}
+                    region={this.props.navigator.latlng}
                     onRegionChange={this.onRegionChange.bind(this)}
                 >
                     {this.state.markers.map((marker, idx) => (
@@ -77,7 +94,7 @@ class Map extends Component {
                     ))}
                 </MapView>
                 {this.renderSpinnerOrNot()}
-                {/* {this.renderError()} */}
+                {this.renderError()}
             </View>
         )
     }
@@ -91,16 +108,21 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    },
     map: {
         ...StyleSheet.absoluteFillObject
-    },
+    }
 })
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('map.js STATE', state)
     return {
+        navigator: state.navigator,
         loading: state.auth.loading,
         error: state.auth.error
     }
 }
-export default connect(mapStateToProps, { loginUserRagTag })(Map)
+export default connect(mapStateToProps, { getCurrentPosition, loginUserRagTag })(Map)
