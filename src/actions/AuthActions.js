@@ -6,6 +6,7 @@ import {
     LOGIN_USER_FAIL,
     LOGIN_USER
 } from './types'
+import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD } from 'react-native-dotenv'
 import { Actions } from 'react-native-router-flux'
 
 // REDUX THUNK - handles async action creators
@@ -49,26 +50,31 @@ export const loginUser = ({ email, password }) => {
 }
 
 export const loginUserRagTag = ({ email, password }) => {
+    console.log('AuthActions ... loginUserRagTag ')
 
     return (dispatch) => {
+    console.log('AuthActions ... loginUserRagTag2222 ')
+
         dispatch({ type: LOGIN_USER })
 
-        const { currentUser } = firebase.auth()
-        console.log('**** currentUser *****', currentUser)
+        // const { currentUser } = firebase.auth()
+        // console.log('**** currentUser *****', currentUser)
+        console.log('AuthActions ... loginUserRagTag3333 ')
 
         // works in iOS...
         firebase.auth().onAuthStateChanged((currentUser) => { 
             console.log('loginUserRagTag ... currentUser', currentUser)
-            console.log('loginUserRagTag ... currentUser.uid', currentUser.uid)
-            if (currentUser.uid) {
+
+            if (currentUser && currentUser.uid) {
+                console.log('....Action')
                 loginUserSuccessRagTag(dispatch, currentUser)
             } else {
-                // console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+                console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
-                        // console.log('created user', user)
+                        console.log('created user', user)
                         const { currentUser } = firebase.auth() // or const currentUser 
-                        // console.log('currentUser', currentUser.uid)
+                        console.log('created currentUser', currentUser)
                         loginUserSuccessRagTag(dispatch, user)
                     })
                     .catch(() => {
