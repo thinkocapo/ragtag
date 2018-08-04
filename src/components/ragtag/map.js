@@ -6,6 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
+import { getCurrentPosition } from '../../modules'
 
 class Map extends Component {
 
@@ -21,22 +22,7 @@ class Map extends Component {
     }
 
     componentDidMount() {
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                console.log('position::', position)                
-                const initialPosition = JSON.stringify(position);
-                this.setState({ initialPosition });
-
-                const latlng = {
-                    latitude: position.coords.latitude,
-                    longitutde: position.coords.longitutde
-                }
-                // Action to Set it in Firebase...
-            },
-            (error) => alert(error.message),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-         );
+        getCurrentPosition()
     }
 
     componentWillMount() {
