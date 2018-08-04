@@ -53,8 +53,13 @@ export const loginUserRagTag = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
+        const { currentUser } = firebase.auth()
+        console.log('**** currentUser *****', currentUser)
+
+        // works in iOS...
         firebase.auth().onAuthStateChanged((currentUser) => { 
-            // console.log('currentUser.uid', currentUser.uid)
+            console.log('loginUserRagTag ... currentUser', currentUser)
+            console.log('loginUserRagTag ... currentUser.uid', currentUser.uid)
             if (currentUser.uid) {
                 loginUserSuccessRagTag(dispatch, currentUser)
             } else {
