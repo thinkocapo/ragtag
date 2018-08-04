@@ -39,6 +39,11 @@ class Map extends Component {
         // this.props.getCurrentPosition()
     }
 
+    // TODO
+    // componentWillUnmount() {
+    //     navigator.geolocation.clearWatch(this.watchId);
+    // }
+
     handleOnPress(nativeEvent) {
         console.log('marker pressed', nativeEvent)
         const { actions, coordinate, id, target } = nativeEvent
