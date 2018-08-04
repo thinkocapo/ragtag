@@ -15,9 +15,6 @@ export const getCurrentPosition = () => {
 
                 requestPositionSuccess(dispatch, position)
                 const initialPosition = JSON.stringify(position);
-    
-                // No, better to Redux
-                // this.setState({ initialPosition });
         
                 const latlng = {
                     latitude: position.coords.latitude,

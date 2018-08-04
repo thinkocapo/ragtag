@@ -50,26 +50,25 @@ export const loginUser = ({ email, password }) => {
 }
 
 export const loginUserRagTag = ({ email, password }) => {
-    console.log('loginUserRagTag')
 
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
         firebase.auth().onAuthStateChanged((currentUser) => { 
-            console.log('currentUser.uid', currentUser.uid)
+            // console.log('currentUser.uid', currentUser.uid)
             if (currentUser.uid) {
                 loginUserSuccessRagTag(dispatch, currentUser)
             } else {
-                console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+                // console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
-                        console.log('created user', user)
+                        // console.log('created user', user)
                         const { currentUser } = firebase.auth() // or const currentUser 
-                        console.log('currentUser', currentUser.uid)
+                        // console.log('currentUser', currentUser.uid)
                         loginUserSuccessRagTag(dispatch, user)
                     })
                     .catch(() => {
-                        console.log('failed to create new user ...')
+                        // console.log('failed to create new user ...')
                         loginUserFail(dispatch)
                     })
             }

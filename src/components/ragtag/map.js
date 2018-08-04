@@ -14,7 +14,11 @@ class Map extends Component {
     state = {
         markers: markers,
         initialPosition: '',
+
+        // MOVING TO REDUX...
+
         // region: getCurrentPosition()
+
         region: {
             latitude: 37.78825,
             longitude: -122.4324,
@@ -24,7 +28,7 @@ class Map extends Component {
     }
 
     componentDidMount() {
-        // getCurrentPosition()
+        this.props.getCurrentPosition()
 
         // watchPosition()
     }
@@ -33,11 +37,11 @@ class Map extends Component {
         this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
 
-    // * ABOUT TO RECEIVE NEW PROPS TO RENDER COMPONENT WITH *
-    // "only gets called with new set of argumnts, which are nextProps"
-    // "this.props is still the old set of props"
+    // * ABOUT TO RECEIVE NEW PROPS TO RENDER COMPONENT WITH * "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
-        // this.createDataSource(nextProps)
+        console.log('-- nextProps --', nextProps)
+        // this.setState({ region: nextProps.latlng });
+        // this.props.getCurrentPosition()
     }
 
     handleOnPress(nativeEvent) {
@@ -72,12 +76,16 @@ class Map extends Component {
 
     render() {
         console.log('map.js render()...navigator', this.props)
+        if (this.props.navigator.loading === true) {
+            return <SpinnerCustom size="large" />
+        }
+        console.log()
         return (
             <View style={{flex: 1}}>
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    region={this.state.region}
+                    region={this.props.navigator.latlng}
                     onRegionChange={this.onRegionChange.bind(this)}
                 >
                     {this.state.markers.map((marker, idx) => (
@@ -123,4 +131,4 @@ const mapStateToProps = (state, ownProps) => {
         error: state.auth.error
     }
 }
-export default connect(mapStateToProps, { loginUserRagTag })(Map)
+export default connect(mapStateToProps, { getCurrentPosition, loginUserRagTag })(Map)
