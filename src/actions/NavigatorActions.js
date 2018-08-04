@@ -3,7 +3,7 @@
 import {
     REQUEST_POSITION, REQUEST_POSITION_SUCCESS, REQUEST_POSITION_FAIL
 } from './types'
-
+// getAndSetCurrentPosition ? where to make call to Firebase
 export const getCurrentPosition = () => {
     return (dispatch) => {
         dispatch({ type: REQUEST_POSITION })
