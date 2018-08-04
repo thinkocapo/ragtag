@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -66,6 +66,16 @@ class Map extends Component {
         // so do nothing...for now...nothing needed
     }
 
+    renderError() {
+        if (this.props.error) {
+            return (
+                <View style={{ backgroundColor: 'white'}}>
+                    <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+                </View>
+            )
+        }
+    }
+
     renderMarker(data) {
         // return <ListItem employee={employee} />
     }
@@ -97,7 +107,7 @@ class Map extends Component {
                     ))}
                 </MapView>
                 {this.renderSpinnerOrNot()}
-                {/* {this.renderError()} */}
+                {this.renderError()}
             </View>
         )
     }
@@ -110,6 +120,11 @@ const styles = StyleSheet.create({
         width: 400,
         justifyContent: 'flex-end',
         alignItems: 'center',
+    },
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
     },
     map: {
         ...StyleSheet.absoluteFillObject

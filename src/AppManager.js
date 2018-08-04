@@ -2,13 +2,9 @@ import React, {Component} from 'react'
 import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import ReduxThunk from 'redux-thunk' // middleware
+import ReduxThunk from 'redux-thunk'
 import reducers from './reducers'
-
-import { Header } from './components/common'
-// // import LoginForm from './components/manager/LoginForm'
 import Router from './Router'
-
 import firebase from 'firebase'
 import {MANAGER_API_KEY, MANAGER_AUTH_DOMAIN, MANAGER_DATABASE_URL, MANAGER_PROJECT_ID, MANAGER_STORAGE_BUCKET, MANAGER_MESSAGING_SENDER_ID} from 'react-native-dotenv'
 
