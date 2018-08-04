@@ -1,8 +1,8 @@
 
-export function getCurrentPosition () {
+function getCurrentPosition () {
     navigator.geolocation.getCurrentPosition(
         (position) => {
-            console.log('position::', position)                
+            console.log('position of user', position)                
             const initialPosition = JSON.stringify(position);
 
             // No, better to Redux
@@ -19,6 +19,23 @@ export function getCurrentPosition () {
     );
 }
 
-// TRY
-// const getCurrentPosition = function () {}
-// export { getCurrentPosition}
+
+// Invokes the success callback whenever the location changes. Returns a watchId (number).
+function watchPosition () {
+    console.log('watch position ***')
+    this.watchId = navigator.geolocation.watchPosition(
+        (position) => {
+            console.log('position of watched user', position)                
+            // TODO - Firebase call
+            const latlng = {
+                latitude: position.coords.latitude,
+                longitutde: position.coords.longitutde
+            }
+        },
+        (error) => alert(error.message),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+      );
+}
+
+
+export { getCurrentPosition, watchPosition }

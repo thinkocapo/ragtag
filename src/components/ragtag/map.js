@@ -6,7 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
-import { getCurrentPosition } from '../../modules'
+import { getCurrentPosition, watchPosition } from '../../modules'
 
 class Map extends Component {
 
@@ -23,6 +23,7 @@ class Map extends Component {
 
     componentDidMount() {
         getCurrentPosition()
+        watchPosition()
     }
 
     componentWillMount() {
