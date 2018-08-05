@@ -67,13 +67,13 @@ class Map extends Component {
     }
 
     renderSpinnerOrNot() {
-        if (this.props.loading) {
+        if (this.props.loading) { // || this.props.navigator.loading === true
             return <SpinnerCustom size="large" />
         }
     }
 
     render() {
-        if (this.props.navigator.loading === true) {
+        if (this.props.navigator.loading === true) { // remove and use renderSpinnerOrNot, maybe put renderSpinnerorNot at top before the Markers?
             return <SpinnerCustom size="large" />
         }
         return (

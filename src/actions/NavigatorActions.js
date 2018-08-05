@@ -15,18 +15,18 @@ export function getAndSetCurrentPosition () {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log('getAndSetCurrentPosition ... position of user', position)
+                console.log('getAndSetCurrentPosition ... 4 position of user', position)
                 const latlng = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 }
-                console.log('getAndSetCurrentPosition ... position  latlng', latlng)
+                console.log('getAndSetCurrentPosition ... 5 position  latlng', latlng)
 
                 requestPositionSuccess(dispatch, position) // REDUX 
                 
                 firebase.auth().onAuthStateChanged((currentUser) => {
 
-                    console.log('getAndSetCurrentPosition ... onAuthStateChanged uid', currentUser.uid)
+                    console.log('getAndSetCurrentPosition ... 6 onAuthStateChanged uid', currentUser.uid)
                     firebase.database().ref(`/users/${currentUser.uid}/position`)
                         .set({
                             latitude: position.coords.latitude,
