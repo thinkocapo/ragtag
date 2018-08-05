@@ -3,7 +3,9 @@ import LibraryReducer from './LibraryReducer'
 import SelectionReducer from './SelectionReducer'
 import EmployeeFormReducer from './EmployeeFormReducer'
 import EmployeeReducer from './EmployeeReducer'
+// RAGTAG
 import NavigatorReducer from './NavigatorReducer'
+import FirebaseReducer from './FirebaseReducer'
 
 // Manager App
 import AuthReducer from './AuthReducer'
@@ -19,5 +21,6 @@ export default combineReducers({
     employees: EmployeeReducer,
 
     // RagTag App
-    navigator: NavigatorReducer
+    navigator: NavigatorReducer,
+    firebase: FirebaseReducer
 })

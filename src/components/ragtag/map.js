@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { getAndSetCurrentPosition, loginUserRagTag } from '../../actions'
+import { getAndSetCurrentPosition, fetchAndPlotUsers, loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
@@ -12,7 +12,6 @@ class Map extends Component {
 
     state = {
         markers: markers,
-        initialPosition: '',
     }
         
     // TODO make one renderSpinnerOrNot for both of these
@@ -21,11 +20,11 @@ class Map extends Component {
         // TODO - though, its finishing early enough for now, before the getAndSetPosition
         
         await this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        await this.props.fetchAndPlotUsers()
         this.props.getAndSetCurrentPosition()
     }
 
-    // CAN USE?
-    // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
+    // CAN USE? - About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
         // this.setState({ region: nextProps.latlng });
         // this.props.getCurrentPosition()
@@ -69,7 +68,8 @@ class Map extends Component {
                     region={this.props.navigator.latlng}
                     onRegionChange={this.onRegionChange.bind(this)}
                 >
-                    {this.state.markers.map((marker, idx) => (
+                    {/* {this.state.markers.map((marker, idx) => ( */}
+                    {this.props.users.map((marker, idx) => (
                         <Marker
                             identifier={marker.id}
                             key={idx}
@@ -106,13 +106,30 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
+    const users = state.firebase.users.map((user, idx) => {
+        return {
+            latlng: {
+                latitude: '',
+                longitude: ''
+            },
+            id: idx
+        }
+    })
+
     return {
         navigator: state.navigator,
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        users: users
     }
 }
-export default connect(mapStateToProps, { getAndSetCurrentPosition, loginUserRagTag })(Map)
+export default connect(mapStateToProps, 
+    { 
+        getAndSetCurrentPosition,
+        loginUserRagTag,
+        fetchAndPlotUsers 
+    })
+    (Map)
 
 // TODO - import { watchPosition } from '../../modules'
 // componentWillUnmount() {
