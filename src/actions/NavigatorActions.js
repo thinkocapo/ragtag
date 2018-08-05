@@ -5,35 +5,27 @@ import {
 
 // Get the position from React Native Geolocation API and Set the position in Firebase User collection
 export function getAndSetCurrentPosition () {
-    console.log('3 getAndSetCurrentPosition ... 1')
 
     return (dispatch) => {
-        console.log('getAndSetCurrentPosition ... 2', navigator)
 
         dispatch({ type: REQUEST_POSITION })
-        console.log('getAndSetCurrentPosition ... 3', navigator.geolocation)
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log('getAndSetCurrentPosition ... 4 position of user', position)
                 const latlng = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 }
-                console.log('getAndSetCurrentPosition ... 5 position  latlng', latlng)
 
                 requestPositionSuccess(dispatch, position) // REDUX 
                 
                 firebase.auth().onAuthStateChanged((currentUser) => {
-
-                    console.log('getAndSetCurrentPosition ... 6 onAuthStateChanged currentUser', currentUser)
-                    console.log('getAndSetCurrentPosition ... 6 onAuthStateChanged currentUser.uid', currentUser.uid)
                     firebase.database().ref(`/users/${currentUser.uid}/position`)
                         .set({
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         })
-                        .then((result) => {
+                        .then((result) => { // TODO .catch?
                             // console.log('getAndSetCurrentPosition ... FIREBASE updated', result) // undefined
                         })
                 })

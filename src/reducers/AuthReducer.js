@@ -28,9 +28,8 @@ export default (state = INITIAL_STATE, action) => {
         case PASSWORD_CHANGED:
             return { ...state, password: action.payload }
         case LOGIN_USER_SUCCESS:
-            console.log('reducer - LOGIN_USER_SUCCESS', action)
             // * INTERESTING *
-            // banana - throw an error here, and it will cause the forebase call to reach .catch, even though the response came back
+            // throw any error here, and it will cause the forebase call to reach .catch, even though the response came back
             // return { ...state, user: action.payload, error: '', loading: false, email: '', password: ''} // reset email/password so if user navigate away from app and back, its no longer showing/stored in redux
             return { ...state, ...INITIAL_STATE, user: action.payload }
         case LOGIN_USER_FAIL:

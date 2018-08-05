@@ -10,15 +10,14 @@ import {
 } from 'react-native-dotenv'
 import reducers from './reducers'
 import { Header, SpinnerCustom } from './components/common'
-// import Router from './Router'
 import Map from './components/ragtag/map'
-// import { loginUserRagTag } from './actions' can't mount this component to Redux...
 import firebase from 'firebase'
+// import Router from './Router' consider if app complexity grows
+// import { loginUserRagTag } from './actions' can't mount this component to Redux...
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 
-// TODO
-// pop-up prompt for signup?
+// TODO - pop-up prompt for signup?
 class AppRagTag extends Component {
 
     async componentWillMount() {
@@ -31,7 +30,7 @@ class AppRagTag extends Component {
             storageBucket: RAGTAG_STORAGE_BUCKET,
             messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
         }) 
-        console.log('000 firebase initialized', firebaseInitialized)
+        console.log('FIREBASE INITIALIZED', firebaseInitialized)
         // this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
 
