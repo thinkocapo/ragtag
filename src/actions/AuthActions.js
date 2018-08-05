@@ -53,20 +53,17 @@ export const loginUserRagTag = ({ email, password }) => {
     console.log('AuthActions ... loginUserRagTag ')
 
     return (dispatch) => {
-    console.log('AuthActions ... loginUserRagTag2222 ')
 
         dispatch({ type: LOGIN_USER })
 
         // const { currentUser } = firebase.auth()
         // console.log('**** currentUser *****', currentUser)
-        console.log('AuthActions ... loginUserRagTag3333 ')
 
         // works in iOS...
         firebase.auth().onAuthStateChanged((currentUser) => { 
             console.log('loginUserRagTag ... currentUser', currentUser)
 
             if (currentUser && currentUser.uid) {
-                console.log('....Action')
                 loginUserSuccessRagTag(dispatch, currentUser)
             } else {
                 console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)

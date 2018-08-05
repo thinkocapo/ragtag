@@ -112,6 +112,15 @@ if error 'Objects are not valid as a React child(found: object with keys {$$type
 THen comment out your firebase import. That's not helpful if you need it on app mounting (maybe will work from onButto nclik, not sure) so downgrade firebase version.
 
 To debug, command+M, then Debug JS Remotely. make sure LiveReload is on. try Hot Reload if need be. but seems right now its reloading. Opens 10.0.2.2 "this site can't be find" so change that to 'localhost' and re-run android app. works.
+```
+http://10.0.2.2:8081/debugger-ui
+```
+to
+```
+localhost:8081/debugger-ui
+```
+
+`<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />`
 ### USB To Physical Mobile Device
 1. connect device via USB. enable developer options(link)
 2.

@@ -26,6 +26,7 @@ class Map extends Component {
         // }
     }
 
+    // TODO make one renderSpinnerOrNot for both of these 3:17p *
     componentDidMount() {
         this.props.getAndSetCurrentPosition()
     }

@@ -5,9 +5,13 @@ import {
 
 // Get the position from React Native Geolocation API and Set the position in Firebase User collection
 export function getAndSetCurrentPosition () {
+    console.log('getAndSetCurrentPosition ... 1')
 
     return (dispatch) => {
+        console.log('getAndSetCurrentPosition ... 2', navigator)
+
         dispatch({ type: REQUEST_POSITION })
+        console.log('getAndSetCurrentPosition ... 3', navigator.geolocation)
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
