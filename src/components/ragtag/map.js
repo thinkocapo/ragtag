@@ -1,47 +1,35 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { loginUserRagTag } from '../../actions'
+import { getAndSetCurrentPosition, loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
-import { watchPosition } from '../../modules'
-import { getAndSetCurrentPosition } from '../../actions'
 
-// renderMarker(data) {
-    // return <ListItem employee={employee} />
-// }
+// region moved from state to redux via getAndSetPosition
 class Map extends Component {
 
     state = {
         markers: markers,
         initialPosition: '',
-        // Moved to Redux...
-        // region: {
-        //     latitude: 37.78825,
-        //     longitude: -122.4324,
-        //     latitudeDelta: 0.0922,
-        //     longitudeDelta: 0.0421,
-        // }
     }
-
-    componentDidMount() {
+        
+    // TODO make one renderSpinnerOrNot for both of these
+    async componentWillMount() {
+        // TODO - Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
+        // TODO - though, its finishing early enough for now, before the getAndSetPosition
+        
+        await this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
         this.props.getAndSetCurrentPosition()
     }
-    componentWillMount() {
-        this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
-    }
+
+    // CAN USE?
     // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
         // this.setState({ region: nextProps.latlng });
         // this.props.getCurrentPosition()
     }
-
-    // TODO
-    // componentWillUnmount() {
-    //     navigator.geolocation.clearWatch(this.watchId);
-    // }
 
     handleOnPress(nativeEvent) {
         console.log('marker pressed', nativeEvent)
@@ -64,13 +52,13 @@ class Map extends Component {
     }
 
     renderSpinnerOrNot() {
-        if (this.props.loading) {
+        if (this.props.loading) { // || this.props.navigator.loading === true
             return <SpinnerCustom size="large" />
         }
     }
 
     render() {
-        if (this.props.navigator.loading === true) {
+        if (this.props.navigator.loading === true) { // remove and use renderSpinnerOrNot, maybe put renderSpinnerorNot at top before the Markers?
             return <SpinnerCustom size="large" />
         }
         return (
@@ -125,3 +113,12 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 export default connect(mapStateToProps, { getAndSetCurrentPosition, loginUserRagTag })(Map)
+
+// TODO - import { watchPosition } from '../../modules'
+// componentWillUnmount() {
+//     navigator.geolocation.clearWatch(this.watchId);
+// }
+
+// renderMarker(data) {
+    // return <ListItem employee={employee} />
+// }

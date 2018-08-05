@@ -7,28 +7,25 @@ import {
 export function getAndSetCurrentPosition () {
 
     return (dispatch) => {
+
         dispatch({ type: REQUEST_POSITION })
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log('getAndSetCurrentPosition ... position of user', position)
                 const latlng = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 }
-                console.log('getAndSetCurrentPosition ... position  latlng', latlng)
 
                 requestPositionSuccess(dispatch, position) // REDUX 
                 
                 firebase.auth().onAuthStateChanged((currentUser) => {
-
-                    console.log('getAndSetCurrentPosition ... onAuthStateChanged uid', currentUser.uid)
                     firebase.database().ref(`/users/${currentUser.uid}/position`)
                         .set({
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         })
-                        .then((result) => {
+                        .then((result) => { // TODO .catch?
                             // console.log('getAndSetCurrentPosition ... FIREBASE updated', result) // undefined
                         })
                 })
@@ -36,7 +33,8 @@ export function getAndSetCurrentPosition () {
             },
             (error) => alert(error.message),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-        );
+        )
+        // .catch() ?
     }
     
 }

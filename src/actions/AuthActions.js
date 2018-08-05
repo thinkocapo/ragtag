@@ -6,6 +6,7 @@ import {
     LOGIN_USER_FAIL,
     LOGIN_USER
 } from './types'
+import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD } from 'react-native-dotenv'
 import { Actions } from 'react-native-router-flux'
 
 // REDUX THUNK - handles async action creators
@@ -33,7 +34,8 @@ export const passwordChanged = (text) => {
 }
 
 // loginUser action returns a function which invokes immediately, and the 'dispatch' in it we can call at anytime, call it multiple times
-export const loginUser = ({ email, password }) => {
+export async function loginUser ({ email, password }) {
+
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
@@ -53,26 +55,25 @@ export const loginUserRagTag = ({ email, password }) => {
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
-        firebase.auth().onAuthStateChanged((currentUser) => { 
-            // console.log('currentUser.uid', currentUser.uid)
-            if (currentUser.uid) {
-                loginUserSuccessRagTag(dispatch, currentUser)
-            } else {
-                // console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+        return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+            .then(user => {
+                loginUserSuccessRagTag(dispatch, user)
+                return
+            }).catch((err) => {
+                console.log('LOGIN ERROR:',err) // keep this here, because response might come back okay but if reducer throws an error, then this .catch will be reached, which is misleading
+                console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
-                        // console.log('created user', user)
+                        console.log('created user', user)
                         const { currentUser } = firebase.auth() // or const currentUser 
-                        // console.log('currentUser', currentUser.uid)
+                        console.log('created currentUser', currentUser)
                         loginUserSuccessRagTag(dispatch, user)
                     })
                     .catch(() => {
                         // console.log('failed to create new user ...')
                         loginUserFail(dispatch)
                     })
-            }
-        })
-
+            })
     }
 }
 
@@ -94,3 +95,6 @@ const loginUserSuccessRagTag = (dispatch, user) => {
         payload: user
     })
 }
+
+// const { currentUser } = firebase.auth()
+// console.log('**** currentUser *****', currentUser)

@@ -83,10 +83,51 @@ Then you can research and try passing all sorts of args like:
 cd react-native run-android
 react-native run-android
 ```
-runs with no errors :)
-15. Problem - LiveReloading not working after makign changes to javascript source files.
+runs with no errors :)  
+15. Problem - LiveReloading not working after makign changes to javascript source files.  
 16. Solution - command+m for Developer Menu, Enable LiveReload
 
+If you get any error about 'Missing Platform: NDK' then go into AndroidStudio SDK Manager and install the 'NDK' plug-in.
+
+Errors on react:react-native-maps...
+```
+compileOnly "com.facebook.react:react-native:+"
+implementation "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+implementation "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+implementation "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
+```
+  needs to be:
+```
+  provided "com.facebook.react:react-native:+"
+  compile "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+  compile "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+  compile "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
+```
+https://github.com/react-native-community/react-native-camera/issues/1490
+
+
+```
+if error 'Objects are not valid as a React child(found: object with keys {$$typeof, type, key, ref, props, _owner, _store}). If you meant to render a collectio nof children, use an array instead
+```
+THen comment out your firebase import. That's not helpful if you need it on app mounting (maybe will work from onButto nclik, not sure) so downgrade firebase version.
+
+To debug, command+M, then Debug JS Remotely. make sure LiveReload is on. try Hot Reload if need be. but seems right now its reloading. Opens 10.0.2.2 "this site can't be find" so change that to 'localhost' and re-run android app. works.
+```
+http://10.0.2.2:8081/debugger-ui
+```
+to
+```
+localhost:8081/debugger-ui
+```
+
+Don't forget:
+`<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />`
+
+If error `“PANIC: Missing emulator engine program for 'x86' CPUS.”`
+```
+cd /Users/WillsHome/Library/Android/sdk/emulator
+./emulator -avd Nexus_5X_API_28
+```
 ### USB To Physical Mobile Device
 1. connect device via USB. enable developer options(link)
 2.
