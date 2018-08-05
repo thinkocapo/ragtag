@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { getAndSetCurrentPosition, fetchAndPlotUsers, loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import _ from 'lodash'
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
@@ -68,14 +69,13 @@ class Map extends Component {
                     region={this.props.navigator.latlng}
                     onRegionChange={this.onRegionChange.bind(this)}
                 >
-                    {/* {this.state.markers.map((marker, idx) => ( */}
-                    {this.props.users.map((marker, idx) => (
+                    {this.props.users.map((user, idx) => (
                         <Marker
-                            identifier={marker.id}
+                            identifier={user.uid}
                             key={idx}
-                            coordinate={marker.latlng}
-                            title={marker.title}
-                            description={marker.description}
+                            coordinate={user.position}
+                            title={user.title}
+                            description={user.description}
                             onPress={e => this.handleOnPress(e.nativeEvent)}
                         />
                     ))}
@@ -106,30 +106,15 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('state.firebase', state.firebase)
-    console.log('state.firebase.users', state.firebase.users)
-
-    // const employees = _.map(state.employees, (val, uid) => {
-    //     return { ...val, uid } // { uid, shift, name, phone } * END RESULT *
-    // })
-
-    // return { employees }
-
-    // const users = state.firebase.users.map((user, idx) => {
-    //     return {
-    //         latlng: {
-    //             latitude: '',
-    //             longitude: ''
-    //         },
-    //         id: idx
-    //     }
-    // })
-
+    // no title or description...
+    const users = _.map(state.firebase.users, (val, uid) => {
+        return { ...val, uid } // { uid, shift, name, phone }
+    })
     return {
         navigator: state.navigator,
         loading: state.auth.loading,
         error: state.auth.error,
-        users: markers
+        users: users
     }
 }
 export default connect(mapStateToProps, 
@@ -147,4 +132,13 @@ export default connect(mapStateToProps,
 
 // renderMarker(data) {
     // return <ListItem employee={employee} />
+// }
+
+// const firebaseUserExample = {
+//     '449l0OzyLRNATky0iBNUXIVvQnO2': {
+//         'position': {
+//             latitude:37.785834,
+//             longitude:-122.406417
+//         }
+//     }
 // }
