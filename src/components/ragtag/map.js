@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { loginUserRagTag } from '../../actions'
+import { getAndSetCurrentPosition, loginUserRagTag } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
 import { watchPosition } from '../../modules'
-import { getAndSetCurrentPosition } from '../../actions'
 
 // renderMarker(data) {
     // return <ListItem employee={employee} />
@@ -26,15 +25,18 @@ class Map extends Component {
         // }
     }
 
+    // componentDidMount() {
+    //     this.props.getAndSetCurrentPosition()
+    // }
+        
     // TODO make one renderSpinnerOrNot for both of these 3:17p *
-    componentDidMount() {
-        this.props.getAndSetCurrentPosition()
-    }
-    componentWillMount() {
+    async componentWillMount() {
         // 8:37.... Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
-
-        this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        
+        await this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        await this.props.getAndSetCurrentPosition()
     }
+
     // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
     componentWillReceiveProps(nextProps) {
         // this.setState({ region: nextProps.latlng });

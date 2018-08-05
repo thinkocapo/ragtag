@@ -31,7 +31,7 @@ class AppRagTag extends Component {
             storageBucket: RAGTAG_STORAGE_BUCKET,
             messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
         }) 
-        console.log('firebase initialized:::', firebaseInitialized)
+        console.log('000 firebase initialized', firebaseInitialized)
         // this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
     }
 

@@ -34,7 +34,8 @@ export const passwordChanged = (text) => {
 }
 
 // loginUser action returns a function which invokes immediately, and the 'dispatch' in it we can call at anytime, call it multiple times
-export const loginUser = ({ email, password }) => {
+export async function loginUser ({ email, password }) {
+    console.log("* LOGIN USER *")
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
@@ -50,7 +51,7 @@ export const loginUser = ({ email, password }) => {
 }
 
 export const loginUserRagTag = ({ email, password }) => {
-    console.log('AuthActions ... loginUserRagTag ')
+    console.log('1 AuthActions ... loginUserRagTag ')
 
     return (dispatch) => {
 
@@ -59,13 +60,13 @@ export const loginUserRagTag = ({ email, password }) => {
         // const { currentUser } = firebase.auth()
         // console.log('**** currentUser *****', currentUser)
 
-        // works in iOS...
-        firebase.auth().onAuthStateChanged((currentUser) => { 
-            console.log('loginUserRagTag ... currentUser', currentUser)
-
-            if (currentUser && currentUser.uid) {
-                loginUserSuccessRagTag(dispatch, currentUser)
-            } else {
+        return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+            .then(user => {
+                console.log('2 AuthActions ... user logged in ')
+                loginUserSuccessRagTag(dispatch, user)
+                return
+            }).catch((err) => {
+                console.log('LOGIN ERROR:',err) // keep this here, because response might come back okay but if reducer throws an error, then this .catch will be reached, which is misleading
                 console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
@@ -78,8 +79,29 @@ export const loginUserRagTag = ({ email, password }) => {
                         // console.log('failed to create new user ...')
                         loginUserFail(dispatch)
                     })
-            }
-        })
+            })
+
+        // works in iOS...
+        // firebase.auth().onAuthStateChanged((currentUser) => { 
+        //     console.log('loginUserRagTag ... currentUser', currentUser)
+
+        //     if (currentUser && currentUser.uid) {
+        //         loginUserSuccessRagTag(dispatch, currentUser)
+        //     } else {
+        //         console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
+        //         firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+        //             .then(user => {
+        //                 console.log('created user', user)
+        //                 const { currentUser } = firebase.auth() // or const currentUser 
+        //                 console.log('created currentUser', currentUser)
+        //                 loginUserSuccessRagTag(dispatch, user)
+        //             })
+        //             .catch(() => {
+        //                 // console.log('failed to create new user ...')
+        //                 loginUserFail(dispatch)
+        //             })
+        //     }
+        // })
 
     }
 }
