@@ -34,7 +34,7 @@ class Map extends Component {
         // 8:37.... Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
         
         await this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
-        await this.props.getAndSetCurrentPosition()
+        this.props.getAndSetCurrentPosition()
     }
 
     // About to receive new props to render component with "only gets called with new set of argumnts, which are nextProps" "this.props is still the old set of props" this.createDataSource(nextProps)
