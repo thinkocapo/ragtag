@@ -17,8 +17,8 @@ export default (state = INITIAL_STATE, action) => {
         case REQUEST_POSITION:
         return { ...state,  loading: true, error: '' }
         case REQUEST_POSITION_SUCCESS:
-            action.payload.coords.latitudeDelta = 0.0922
-            action.payload.coords.longitudeDelta = 0.0421
+            action.payload.coords.latitudeDelta = 0.922 // ZOOM LEVEL
+            action.payload.coords.longitudeDelta = 0.421
             return { ...state, latlng: action.payload.coords, loading: false }
         case REQUEST_POSITION_FAIL:
             return { ...state, error: 'GetCurrentPosition Failed', loading: false }
