@@ -106,21 +106,30 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    const users = state.firebase.users.map((user, idx) => {
-        return {
-            latlng: {
-                latitude: '',
-                longitude: ''
-            },
-            id: idx
-        }
-    })
+    console.log('state.firebase', state.firebase)
+    console.log('state.firebase.users', state.firebase.users)
+
+    // const employees = _.map(state.employees, (val, uid) => {
+    //     return { ...val, uid } // { uid, shift, name, phone } * END RESULT *
+    // })
+
+    // return { employees }
+
+    // const users = state.firebase.users.map((user, idx) => {
+    //     return {
+    //         latlng: {
+    //             latitude: '',
+    //             longitude: ''
+    //         },
+    //         id: idx
+    //     }
+    // })
 
     return {
         navigator: state.navigator,
         loading: state.auth.loading,
         error: state.auth.error,
-        users: users
+        users: markers
     }
 }
 export default connect(mapStateToProps, 

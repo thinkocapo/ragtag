@@ -4,16 +4,18 @@ import {
 } from './types'
 
 export function fetchAndPlotUsers () {
-
-    return (dispatch) => {
-
+    console.log('fetchAndPlotUsers...1')
+    return (dispatch) => {        
         dispatch({ type: REQUEST_USERS })
+        console.log('fetchAndPlotUsers...2')
 
-        requestUsersSuccess(dispatch, position)
-
-        // firebase...
-    }
+        firebase.database().ref(`/users`)
+            .on('value', snapshot => {
     
+                console.log("SNAPSHOT", snapshot)
+                requestUsersSuccess(dispatch, snapshot.val())
+            })
+    }
 }
 
 const requestUsersSuccess = (dispatch, users) => {

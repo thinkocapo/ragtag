@@ -19,6 +19,7 @@ export default (state = INITIAL_STATE, action) => {
         case REQUEST_USERS:
         return { ...state,  loading: true, error: '' }
         case REQUEST_USERS_SUCCESS:
+            console.log('FirebaseReducer ... users', action.payload)
             return { ...state, users: action.payload, loading: false }
         case REQUEST_USERS_FAIL:
             return { ...state, error: 'getAndPlotUsers Failed', loading: false }
