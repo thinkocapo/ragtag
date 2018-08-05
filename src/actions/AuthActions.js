@@ -35,7 +35,7 @@ export const passwordChanged = (text) => {
 
 // loginUser action returns a function which invokes immediately, and the 'dispatch' in it we can call at anytime, call it multiple times
 export async function loginUser ({ email, password }) {
-    console.log("* LOGIN USER *")
+
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
