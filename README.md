@@ -120,7 +120,14 @@ to
 localhost:8081/debugger-ui
 ```
 
+Don't forget:
 `<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />`
+
+If error `“PANIC: Missing emulator engine program for 'x86' CPUS.”`
+```
+cd /Users/WillsHome/Library/Android/sdk/emulator
+./emulator -avd Nexus_5X_API_28
+```
 ### USB To Physical Mobile Device
 1. connect device via USB. enable developer options(link)
 2.
