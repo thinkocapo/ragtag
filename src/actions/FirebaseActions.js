@@ -32,6 +32,10 @@ export function tagUser ({ fromUser, id}) {
     let tagsGiven = 0
     tagsGiven++
 
+    // try https://firebase.google.com/docs/auth/web/manage-users heree... .auth().currentUser since state has settled by now
+
+    // read from AsyncStorage...
+
     firebase.database().ref(`/users/${currentUser.uid}/position`)
         .set({ 
             tagsGiven: tagsGiven

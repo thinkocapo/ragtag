@@ -58,6 +58,9 @@ export const loginUserRagTag = ({ email, password }) => {
         return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
             .then(user => {
                 console.log('logged in user', user.uid)
+
+                // **TODO** set to AsyncStorage
+
                 loginUserSuccessRagTag(dispatch, user)
                 return
             }).catch((err) => {
