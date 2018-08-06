@@ -26,24 +26,20 @@ const requestUsersFail = (dispatch) => {
 
 
 export function tagUser ({ fromUser, id}) {
-    firebase.auth().onAuthStateChanged((currentUser) => {
-        console.log('tagUser ... currentUser.uid', currentUser.uid)
-        // *TODO* can set this uid in redux upon login? and set tagsGiven, tagsReceived
+    console.log('tagUser ... currentUser.uid', currentUser.uid)
+    // *TODO* can set this uid in redux upon login? and set tagsGiven, tagsReceived
 
-        let tagsGiven = 0
-        tagsGiven++
+    let tagsGiven = 0
+    tagsGiven++
 
-        firebase.database().ref(`/users/${currentUser.uid}/position`)
-            .set({ 
-              tagsGiven: tagsGiven
-            })
-            .then(() => {
-                // dispatch({ type: RECEIVE_TAGS_GIVEN })
-
-            })
-            .catch((err) => {
-                console.log("ERR tagUser:", err)
-            })
-    })
-    
+    firebase.database().ref(`/users/${currentUser.uid}/position`)
+        .set({ 
+            tagsGiven: tagsGiven
+        })
+        .then(() => {
+            // dispatch({ type: RECEIVE_TAGS_GIVEN })
+        })
+        .catch((err) => {
+            console.log("ERR tagUser:", err)
+        })
 }
