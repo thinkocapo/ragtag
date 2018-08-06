@@ -4,16 +4,11 @@ import { connect } from 'react-redux'
 import { getAndSetCurrentPosition, fetchAndPlotUsers, actionLoginUserRagTag, tagUser } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import _ from 'lodash'
-import { markers } from '../../markers'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD} from 'react-native-dotenv'
 import { SpinnerCustom } from '../common'
 
 // region moved from state to redux via getAndSetPosition
 class Map extends Component {
-
-    state = {
-        markers: markers,
-    }
         
     // TODO make one renderSpinnerOrNot for both of these
     async componentWillMount() {
