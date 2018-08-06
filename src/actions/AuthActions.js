@@ -4,11 +4,13 @@ import {
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER
+    LOGIN_USER,
+    CREATE_USER_FAIL
 } from './types'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD } from 'react-native-dotenv'
 import { Actions } from 'react-native-router-flux'
-import { setItem } from '../modules/AsyncStorage'
+import { asyncSetData } from '../modules/AsyncStorage'
+import { LOGGED_IN_USER } from '../constants'
 
 // REDUX THUNK - handles async action creators
 // "action creators are functions, must return a function. the function will be called with 'dispatch'"
@@ -51,21 +53,15 @@ export async function loginUser ({ email, password }) {
     }
 }
 
-export function loginUserRagTag ({ email, password }) {
-    console.log("22222")
+export function actionLoginUserRagTag ({ email, password }) {
+
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
-    console.log("33333")
-
         return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
             .then(async (user) => {
-    console.log("44444")
 
-                console.log('logged in user1', user)
-                console.log('logged in user2', user.uid)
-
-                await setItem(`user@${user.uid}`, user.uid)
+                await asyncSetData(LOGGED_IN_USER, user.uid)
 
                 loginUserSuccessRagTag(dispatch, user)
                 return
@@ -73,19 +69,17 @@ export function loginUserRagTag ({ email, password }) {
                 console.log('LOGIN ERROR:',err) // keep this here, because response might come back okay but if reducer throws an error, then this .catch will be reached, which is misleading
                 console.log('create the user...', RAGTAG_YOUR_PASSWORD, RAGTAG_YOUR_EMAIL)
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
-                    .then(user => {
+                    .then(async (user) => {
                         console.log('created user', user)
 
-                        // await setItem(`user@${user.uid}`, user)
+                        await asyncSetData(`user@${user.uid}`, user)
 
-
-                        const { currentUser } = firebase.auth() // or const currentUser 
+                        const { currentUser } = firebase.auth() 
                         console.log('created currentUser', currentUser)
                         loginUserSuccessRagTag(dispatch, user)
                     })
                     .catch(() => {
-                        // console.log('failed to create new user ...')
-                        loginUserFail(dispatch)
+                        createUserFail(dispatch)
                     })
             })
     }
@@ -93,6 +87,9 @@ export function loginUserRagTag ({ email, password }) {
 
 const loginUserFail = (dispatch) => {
     dispatch({ type: LOGIN_USER_FAIL })
+}
+const createUserFail = (dispatch) => {
+    dispatch({ type: CREATE_USER_FAIL })
 }
 const loginUserSuccess = (dispatch, user) => {
     dispatch({

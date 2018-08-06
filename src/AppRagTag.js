@@ -21,7 +21,7 @@ const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
 class AppRagTag extends Component {
 
     async componentWillMount() {
-        // 8:39 move this to map.js, and eventually split map.js out into diff files, don't need all the Firebase Initializion stuff in the Map
+        // TODO - where should firebaseInitialization happen, as well as rest of the calls happing in map.js componentWillMount()
         const firebaseInitialized = await firebase.initializeApp({
             apiKey: RAGTAG_API_KEY,
             authDomain: RAGTAG_AUTH_DOMAIN,
@@ -31,7 +31,7 @@ class AppRagTag extends Component {
             messagingSenderId: RAGTAG_MESSAGING_SENDER_ID
         }) 
         console.log('FIREBASE INITIALIZED', firebaseInitialized)
-        // this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        // this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD }) didn't work here, unable to call actions/async from this file with <Provider> and so close to root. Can't mount the component to redux
     }
 
     // Could replace Header/Map with <Router> if need more screens
@@ -39,7 +39,7 @@ class AppRagTag extends Component {
         return (
             <Provider store={store}>
                 <View style={{ flex: 1 }}>
-                    <Header headerText="RAG TAG XV"/>
+                    <Header headerText="RAG TAG"/>
                     <Map />
                 </View>
             </Provider>

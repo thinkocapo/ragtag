@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { getAndSetCurrentPosition, fetchAndPlotUsers, loginUserRagTag, tagUser } from '../../actions'
+import { getAndSetCurrentPosition, fetchAndPlotUsers, actionLoginUserRagTag, tagUser } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import _ from 'lodash'
 import { markers } from '../../markers'
@@ -20,8 +20,7 @@ class Map extends Component {
         // TODO - Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
         // TODO - though, its finishing early enough for now, before the getAndSetPosition
         
-        console.log("1111")
-        await this.props.loginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
+        await this.props.actionLoginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
         await this.props.fetchAndPlotUsers()
         this.props.getAndSetCurrentPosition()
     }
@@ -36,9 +35,9 @@ class Map extends Component {
         console.log('marker pressed', nativeEvent)
         const { action, coordinate, id, target } = nativeEvent
 
-        // const fromUser = null
-        // // *TODO* animation before or after? action before, then redux keeps it alive, then 'RECEIVE/DONE' action turns it off?
-        // tagUser({ fromUser, id })
+        // TODO animation before or after? action before, then redux keeps it alive, then 'RECEIVE/DONE' action turns it off?
+        // TODO { fromUser } could be on the marker, or pull it from AsyncStorage
+        tagUser({ id })
     }
 
     onRegionChange(region) {
@@ -124,7 +123,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, 
     { 
         getAndSetCurrentPosition,
-        loginUserRagTag,
+        actionLoginUserRagTag,
         fetchAndPlotUsers 
     })
     (Map)

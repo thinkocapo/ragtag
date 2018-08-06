@@ -2,6 +2,8 @@ import firebase from 'firebase'
 import {
     REQUEST_USERS, REQUEST_USERS_SUCCESS, REQUEST_USERS_FAIL
 } from './types'
+import { asyncGetData } from '../modules/AsyncStorage'
+import { LOGGED_IN_USER } from '../constants';
 
 export function fetchAndPlotUsers () {
 
@@ -25,25 +27,27 @@ const requestUsersFail = (dispatch) => {
 }
 
 
-export function tagUser ({ fromUser, id}) {
-    console.log('tagUser ... currentUser.uid', currentUser.uid)
-    // *TODO* can set this uid in redux upon login? and set tagsGiven, tagsReceived
+// TODO - there's no action yet, so should this be here
+// TODO - fromUser from AsyncStorage, or set it already on the Marker?
+export async function tagUser ({ id }) {
 
-    let tagsGiven = 0
-    tagsGiven++
+    // let tagsGiven = 0
+    // tagsGiven++
 
-    // try https://firebase.google.com/docs/auth/web/manage-users heree... .auth().currentUser since state has settled by now
+    // const result = firebase.auth().currentUser // working 08/05/28 .auth().currentUser since state has settled by now
 
-    // read from AsyncStorage...
+    const loggedInUser = await asyncGetData(LOGGED_IN_USER)
+    console.log('tagUser loggedInUser', loggedInUser)
 
-    firebase.database().ref(`/users/${currentUser.uid}/position`)
-        .set({ 
-            tagsGiven: tagsGiven
-        })
-        .then(() => {
-            // dispatch({ type: RECEIVE_TAGS_GIVEN })
-        })
-        .catch((err) => {
-            console.log("ERR tagUser:", err)
-        })
+    // **TODO** 10:51p
+    // firebase.database().ref(`/users/${currentUser.uid}/position`)
+    //     .set({ 
+    //         tagsGiven: tagsGiven
+    //     })
+    //     .then(() => {
+    //         // dispatch({ type: RECEIVE_TAGS_GIVEN })
+    //     })
+    //     .catch((err) => {
+    //         console.log("ERR tagUser:", err)
+    //     })
 }

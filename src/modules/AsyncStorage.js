@@ -1,17 +1,29 @@
 import { AsyncStorage } from "react-native"
 
 
-function getItem () {
-
+async function asyncGetData (key) {
+    try {
+        console.log("asyncGetData key", key)
+        const value = await AsyncStorage.getItem(key);
+        if (value !== null) {
+          console.log('asyncGetData value retrieved', value);
+          return value
+        } else {
+          console.log('asyncGetData VALUE NOT FOUND');
+          return unll
+        }
+       } catch (error) {
+         console.log('ERROR asyncGetData');
+       }
 }
 
-function getItems () {
+function asyncGetItems () {
 
 }
 
 // '@MySuperStore:key', 'I like to save it.'
 // for now: key,value user@<id> <id>
-async function setItem (key, value) {
+async function asyncSetData (key, value) {
     console.log('AsyncStorage setItem ... key,value', key, value)
     try {
         await AsyncStorage.setItem(key, value);
@@ -19,8 +31,8 @@ async function setItem (key, value) {
     } catch (error) {console.log('ERROR AsyncStorage setItem', error)}
 }
 
-function setItems () {
+function asyncSetItems () {
 
 }
 
-export { getItem, setItem }
+export { asyncGetData, asyncSetData }

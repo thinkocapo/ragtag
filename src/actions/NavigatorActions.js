@@ -10,6 +10,7 @@ export function getAndSetCurrentPosition () {
 
         dispatch({ type: REQUEST_POSITION })
 
+        // TODO move this to modules/Navigator, and/or define the callback functions for it here, and pass them into modules/Navigator.method (as first class functions)
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const latlng = {
