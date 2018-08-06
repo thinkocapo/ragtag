@@ -8,6 +8,8 @@ import {
 } from './types'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD } from 'react-native-dotenv'
 import { Actions } from 'react-native-router-flux'
+import { AsyncStorage } from "react-native"
+import { setItem } from '../modules/AsyncStorage'
 
 // REDUX THUNK - handles async action creators
 // "action creators are functions, must return a function. the function will be called with 'dispatch'"
@@ -50,7 +52,7 @@ export async function loginUser ({ email, password }) {
     }
 }
 
-export const loginUserRagTag = ({ email, password }) => {
+export async function loginUserRagTag ({ email, password }) {
 
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
@@ -59,7 +61,7 @@ export const loginUserRagTag = ({ email, password }) => {
             .then(user => {
                 console.log('logged in user', user.uid)
 
-                // **TODO** set to AsyncStorage
+                await setItem(`user@${user.uid}`, user)
 
                 loginUserSuccessRagTag(dispatch, user)
                 return
@@ -69,6 +71,10 @@ export const loginUserRagTag = ({ email, password }) => {
                 firebase.auth().createUserWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
                     .then(user => {
                         console.log('created user', user)
+
+                        await setItem(`user@${user.uid}`, user)
+
+
                         const { currentUser } = firebase.auth() // or const currentUser 
                         console.log('created currentUser', currentUser)
                         loginUserSuccessRagTag(dispatch, user)
