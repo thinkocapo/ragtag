@@ -14,7 +14,6 @@ export function fetchAndPlotUsers () {
             })
     }
 }
-
 const requestUsersSuccess = (dispatch, users) => {
     dispatch({
         type: REQUEST_USERS_SUCCESS,
@@ -23,4 +22,28 @@ const requestUsersSuccess = (dispatch, users) => {
 }
 const requestUsersFail = (dispatch) => {
     dispatch({ type: REQUEST_USERS_FAIL })
+}
+
+
+export function tagUser ({ fromUser, id}) {
+    firebase.auth().onAuthStateChanged((currentUser) => {
+        console.log('tagUser ... currentUser.uid', currentUser.uid)
+        // *TODO* can set this uid in redux upon login? and set tagsGiven, tagsReceived
+
+        let tagsGiven = 0
+        tagsGiven++
+
+        firebase.database().ref(`/users/${currentUser.uid}/position`)
+            .set({ 
+              tagsGiven: tagsGiven
+            })
+            .then(() => {
+                // dispatch({ type: RECEIVE_TAGS_GIVEN })
+
+            })
+            .catch((err) => {
+                console.log("ERR tagUser:", err)
+            })
+    })
+    
 }

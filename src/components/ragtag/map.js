@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
-import { getAndSetCurrentPosition, fetchAndPlotUsers, loginUserRagTag } from '../../actions'
+import { getAndSetCurrentPosition, fetchAndPlotUsers, loginUserRagTag, tagUser } from '../../actions'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import _ from 'lodash'
 import { markers } from '../../markers'
@@ -33,8 +33,11 @@ class Map extends Component {
 
     handleOnPress(nativeEvent) {
         console.log('marker pressed', nativeEvent)
-        const { actions, coordinate, id, target } = nativeEvent
-        // TODO Firebase call(sender, receiver)
+        const { action, coordinate, id, target } = nativeEvent
+
+        const fromUser = null
+        // *TODO* animation before or after? action before, then redux keeps it alive, then 'RECEIVE/DONE' action turns it off?
+        tagUser({ fromUser, id })
     }
 
     onRegionChange(region) {
