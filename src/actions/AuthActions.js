@@ -8,7 +8,6 @@ import {
 } from './types'
 import { RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD } from 'react-native-dotenv'
 import { Actions } from 'react-native-router-flux'
-import { AsyncStorage } from "react-native"
 import { setItem } from '../modules/AsyncStorage'
 
 // REDUX THUNK - handles async action creators
@@ -52,16 +51,21 @@ export async function loginUser ({ email, password }) {
     }
 }
 
-export async function loginUserRagTag ({ email, password }) {
-
+export function loginUserRagTag ({ email, password }) {
+    console.log("22222")
     return (dispatch) => {
         dispatch({ type: LOGIN_USER })
 
-        return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
-            .then(user => {
-                console.log('logged in user', user.uid)
+    console.log("33333")
 
-                await setItem(`user@${user.uid}`, user)
+        return firebase.auth().signInWithEmailAndPassword(RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD)
+            .then(async (user) => {
+    console.log("44444")
+
+                console.log('logged in user1', user)
+                console.log('logged in user2', user.uid)
+
+                await setItem(`user@${user.uid}`, user.uid)
 
                 loginUserSuccessRagTag(dispatch, user)
                 return
@@ -72,7 +76,7 @@ export async function loginUserRagTag ({ email, password }) {
                     .then(user => {
                         console.log('created user', user)
 
-                        await setItem(`user@${user.uid}`, user)
+                        // await setItem(`user@${user.uid}`, user)
 
 
                         const { currentUser } = firebase.auth() // or const currentUser 
