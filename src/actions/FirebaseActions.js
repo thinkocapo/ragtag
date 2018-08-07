@@ -15,7 +15,6 @@ export function fetchAndPlotUsers () {
 
                 const loggedInUser = await asyncGetData(LOGGED_IN_USER)
                 const usersObj = snapshot.val()
-                console.log('** USERS 1 **', usersObj)
 
                 for (var uid in usersObj) {
                     if (uid === loggedInUser) {
@@ -24,9 +23,6 @@ export function fetchAndPlotUsers () {
                         usersObj[uid]['loggedInUser'] = false
                     }
                 }
-
-                console.log('** USERS 2 **', usersObj)
-
 
                 requestUsersSuccess(dispatch, usersObj)
             })

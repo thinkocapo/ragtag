@@ -60,7 +60,6 @@ class Map extends Component {
         if (this.props.navigator.loading === true) { // remove and use renderSpinnerOrNot, maybe put renderSpinnerorNot at top before the Markers?
             return <SpinnerCustom size="large" />
         }
-    console.log('Render()............... ', this.props.users)
 
         return (
             <View style={{flex: 1}}>
@@ -109,13 +108,10 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state, ownProps) => {
-    // no title or description...
-    console.log('STATE...1', state)
+    // no title or description...dont need them yet
     const users = _.map(state.firebase.users, (val, uid) => {
         return { ...val, uid } // { uid, shift, name, phone }
     })
-
-    console.log('STATE...2 USERS ', users)
 
     return {
         navigator: state.navigator,
