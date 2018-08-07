@@ -15,6 +15,7 @@ class Map extends Component {
         // TODO - Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
         // TODO - though, its finishing early enough for now, before the getAndSetPosition
         
+        // **TODO** implement 'ifNeeded'...indicate on Redux this things were already set?
         await this.props.actionLoginUserRagTag({ RAGTAG_YOUR_EMAIL, RAGTAG_YOUR_PASSWORD })
         await this.props.fetchAndPlotUsers()
         this.props.getAndSetCurrentPosition()
@@ -59,6 +60,8 @@ class Map extends Component {
         if (this.props.navigator.loading === true) { // remove and use renderSpinnerOrNot, maybe put renderSpinnerorNot at top before the Markers?
             return <SpinnerCustom size="large" />
         }
+    console.log('Render()............... ', this.props.users)
+
         return (
             <View style={{flex: 1}}>
                 <MapView
@@ -75,7 +78,7 @@ class Map extends Component {
                             title={user.title}
                             description={user.description}
                             onPress={e => this.handleOnPress(e.nativeEvent)}
-                            pinColor={'green'}
+                            pinColor={user.loggedInUser === true ? 'green' : 'red'}
                             // image
                         />
                     ))}
@@ -107,9 +110,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
     // no title or description...
+    console.log('STATE...1', state)
     const users = _.map(state.firebase.users, (val, uid) => {
         return { ...val, uid } // { uid, shift, name, phone }
     })
+
+    console.log('STATE...2 USERS ', users)
+
     return {
         navigator: state.navigator,
         loading: state.auth.loading,
