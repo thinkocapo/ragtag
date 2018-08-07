@@ -1,6 +1,7 @@
 # OSX
 #
 .DS_Store
+ios/ragtag/config
 
 # Xcode
 #
@@ -56,3 +57,4 @@ buck-out/
 *.jsbundle
 
 .env
+
