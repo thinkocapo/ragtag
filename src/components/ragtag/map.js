@@ -76,6 +76,7 @@ class Map extends Component {
                             description={user.description}
                             onPress={e => this.handleOnPress(e.nativeEvent)}
                             pinColor={'green'}
+                            // image
                         />
                     ))}
                 </MapView>
