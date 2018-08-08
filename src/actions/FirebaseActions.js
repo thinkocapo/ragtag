@@ -11,8 +11,20 @@ export function fetchAndPlotUsers () {
         dispatch({ type: REQUEST_USERS })
 
         firebase.database().ref(`/users`)
-            .on('value', snapshot => { // { index, key, node, ref }
-                requestUsersSuccess(dispatch, snapshot.val())
+            .on('value', async (snapshot) => { // { index, key, node, ref }
+
+                const loggedInUser = await asyncGetData(LOGGED_IN_USER)
+                const usersObj = snapshot.val()
+
+                for (var uid in usersObj) {
+                    if (uid === loggedInUser) {
+                        usersObj[uid]['loggedInUser'] = true
+                    } else {
+                        usersObj[uid]['loggedInUser'] = false
+                    }
+                }
+
+                requestUsersSuccess(dispatch, usersObj)
             })
     }
 }

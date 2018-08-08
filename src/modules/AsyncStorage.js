@@ -3,10 +3,10 @@ import { AsyncStorage } from "react-native"
 
 async function asyncGetData (key) {
     try {
-        console.log("asyncGetData key", key)
+        // console.log("asyncGetData key", key)
         const value = await AsyncStorage.getItem(key);
         if (value !== null) {
-          console.log('asyncGetData value retrieved', value);
+          // console.log('asyncGetData value retrieved', value);
           return value
         } else {
           console.log('asyncGetData VALUE NOT FOUND');
