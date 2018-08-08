@@ -79,7 +79,8 @@ class Map extends Component {
                             onPress={e => this.handleOnPress(e.nativeEvent)}
                             pinColor={user.loggedInUser === true ? 'green' : 'red'}
                             // image
-                        />
+                        >
+                        </Marker>
                     ))}
                 </MapView>
                 {this.renderSpinnerOrNot()}
