@@ -10,6 +10,10 @@ import { SpinnerCustom } from '../common'
 // region moved from state to redux via getAndSetPosition
 class Map extends Component {
         
+    state = {
+        pressed: false
+    }
+
     // TODO make one renderSpinnerOrNot for both of these
     async componentWillMount() {
         // TODO - Try firebase mounting here? because needs to finish before loginUserRagTag can work, and loginUserRagTag was executing before firebase initialization was done...
@@ -29,7 +33,10 @@ class Map extends Component {
 
     handleOnPress(nativeEvent) {
         console.log('marker pressed', nativeEvent)
-        const { action, coordinate, id, target } = nativeEvent
+        const { action, coordinate, id, target, loggedInUser } = nativeEvent
+
+        // only animate if loggedinUser is tagging someone else
+        if (!loggedInUser) this.setState({ pressed: true })
 
         // TODO animation before or after? action before, then redux keeps it alive, then 'RECEIVE/DONE' action turns it off?
         // TODO { fromUser } could be on the marker, or pull it from AsyncStorage
@@ -56,6 +63,16 @@ class Map extends Component {
         }
     }
 
+    renderTagAnimationOrNot (user) {
+        if (this.state.pressed === true && user.loggedInUser !== true) {
+            return (
+                <View style={styles.marker}>
+                    <Text style={styles.text}>O</Text>
+                </View>
+            )
+        }
+    }
+
     render() {
         if (this.props.navigator.loading === true) { // remove and use renderSpinnerOrNot, maybe put renderSpinnerorNot at top before the Markers?
             return <SpinnerCustom size="large" />
@@ -75,11 +92,16 @@ class Map extends Component {
                             key={idx}
                             coordinate={user.position}
                             title={user.title}
+                            other={'blah'}
                             description={user.description}
-                            onPress={e => this.handleOnPress(e.nativeEvent)}
+                            onPress={e => {
+                                e.nativeEvent.loggedInUser = user.loggedInUser
+                                this.handleOnPress(e.nativeEvent)
+                            }}
                             pinColor={user.loggedInUser === true ? 'green' : 'red'}
                             // image
                         >
+                            {this.renderTagAnimationOrNot(user)}
                         </Marker>
                     ))}
                 </MapView>
@@ -105,6 +127,16 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject
+    },
+
+    marker: {
+        backgroundColor: "#550bbc",
+        padding: 5,
+        borderRadius: 5,
+      },
+    text: {
+        color: "#FFF",
+        fontWeight: "bold"
     }
 })
 
