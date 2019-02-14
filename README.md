@@ -1,4 +1,6 @@
 # rag-tag-react-native
+![RagTagArchitecture](/ragtag-architecture.jpg)
+
 For some odd reason, `react native init` makes an empty project with only `node_modules` and `package.json`, so use "Create React Native App" CRNA:
 `create-react-native-app init project_name`
 And later in this document you'll read I'm against CRNA because it uses 'Expo' app client.
